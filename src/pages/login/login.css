@@ -1,0 +1,62 @@
+
+/*.login-container {*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    margin: 0;*/
+/*    padding: 0;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    background-image: url("backgroundimglogin.jpeg");*/
+/*    background-size: cover;*/
+/*    background-position: center;*/
+/*}*/
+
+
+/*!*.login-container {*!*/
+/*!*    width: 100%;*!*/
+/*!*    max-width: 400px; !* Adjust the maximum width as needed *!*!*/
+/*!*    text-align: center; !* Center the content inside login-container *!*!*/
+/*!*}*!*/
+
+/*.title-container {*/
+/*    margin-bottom: 20px;*/
+/*    color: white;*/
+/*    font-family: "Bauhaus 93", serif;*/
+/*}*/
+
+/*form {*/
+/*    padding: 2rem;*/
+/*    border-radius: 10px;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    align-items: center; !* Center the form content *!*/
+/*}*/
+
+/*.form-group {*/
+/*    margin-bottom: 1rem;*/
+/*    text-align: left; !* Align the label and input to the left *!*/
+
+/*}*/
+
+/*label {*/
+/*    display: block;*/
+/*    margin-bottom: 0.5rem;*/
+/*    color:white*/
+/*}*/
+
+/*input {*/
+/*    padding: 0.5rem;*/
+/*    border: none;*/
+/*    border-radius: 5px;*/
+/*}*/
+
+/*button {*/
+/*    margin-top: 1rem;*/
+/*    padding: 0.5rem;*/
+/*    border: none;*/
+/*    border-radius: 5px;*/
+/*    background-color: white;*/
+/*    color: black;*/
+/*    cursor: pointer;*/
+/*}*/
