@@ -1,31 +1,25 @@
+import React from "react";
 import "./searchItem.css";
-
-const SearchItem = () => {
+import { useNavigate } from 'react-router-dom'
+const SearchItem = ({ space }) => {
+  const navigate = useNavigate();
   return (
     <div className="searchItem">
       <img
-        src="https://cf.bstatic.com/xdata/images/hotel/square600/261707778.webp?k=fa6b6128468ec15e81f7d076b6f2473fa3a80c255582f155cae35f9edbffdd78&o=&s=1"
-        alt=""
+        src={space.image}
+        alt={space.title}
         className="siImg"
       />
-        <div className="siDesc">
-            <h1 className="siTitle">Tower Street Apartments</h1>
-            <span className="siSubtitle">
-                Aleksandra Janowskiego 02-341
-            </span>
-            <span className="siFeatures">Meeting room</span>
-            {/*<span className="siTaxiOp">Free airport taxi</span>*/}
-
-        </div>
-        <div className="siDetails">
-            <button className="siCheckButton">Edit</button>
-        {/*<div className="siRating">*/}
-        {/*  <span>Excellent</span>*/}
-        {/*  <button>8.9</button>*/}
-        {/*</div>*/}
+      <div className="siDesc">
+        <h1 className="siTitle" onClick={() => navigate(`/hotels/${space.id}`)}>{space.title}</h1>
+        <span className="siSubtitle" onClick={() => navigate(`/hotels/${space.id}`)}>{space.address}</span>
+        <span className="siFeatures" onClick={() => navigate(`/hotels/${space.id}`)}>{space.features}</span>
+      </div>
+      <div className="siDetails">
+        <button className="siCheckButton">Edit</button>
         <div className="siDetailTexts">
-          <span className="siPrice">$112</span>
-          <span className="siTaxOp">Includes taxes and fees</span>
+          <span className="siPrice">{`$${space.price}`}</span>
+          <span className="siTaxOp">{space.taxInfo}</span>
         </div>
       </div>
     </div>
@@ -33,3 +27,6 @@ const SearchItem = () => {
 };
 
 export default SearchItem;
+
+
+

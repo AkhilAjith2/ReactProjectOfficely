@@ -41,6 +41,7 @@ const Header = ({ type }) => {
 
   const handleSearch = () => {
     navigate("/hotels", { state: { destination, date, options } });
+    console.log("navigating to /hotels from search bar in header")
   };
 
   return (
