@@ -63,6 +63,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [loginError,setLoginError] = useState('');
 
   const navigate = useNavigate();
 
@@ -100,6 +101,24 @@ const Login = () => {
 
   const isValid = () => validateEmail() && validatePassword();
 
+  const fetchData = () =>{
+    fetch('http://localhost:3001/users')
+    .then(response => response.json())
+    .then(users => {
+  
+      const matchedUser = users.find(user => user.email === email && user.password === password);
+
+      if (matchedUser) {
+        console.log('Login successful');
+        navigate('/hotels');
+      } else {
+        console.log('Invalid email or password');
+        setLoginError("Incorrect Email Address or Password Entered!")
+      }
+    })
+
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -108,9 +127,7 @@ const Login = () => {
     }
     console.log('An email was submitted: ', email);
     console.log('A password was submitted: ', password);
-
-    navigate('/hotels');
-    console.log('Navigating to /hotels from Login button in login');
+    fetchData();
   };
 
   return (
@@ -155,6 +172,9 @@ const Login = () => {
                   error={!!passwordError}
                   helperText={passwordError}
                 />
+                 {loginError && (
+                  <p style={{ color: 'red', textAlign: 'center' }}>{loginError}</p>
+                )}
                 <LoginButton type="submit" centerRipple variant="contained" sx={{ mt: 4, mb: 4 }}>
                   Log in
                 </LoginButton>
