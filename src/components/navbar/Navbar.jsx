@@ -1,19 +1,43 @@
-import "./navbar.css"
+import React from 'react';
 import { Link } from 'react-router-dom';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const theme = createTheme({
+    palette: {
+        primary: {
+            main: '#000000', // Set primary color to black
+        },
+    },
+    typography: {
+        fontFamily: 'Dubai Medium, serif', // Replace with your desired font
+    },
+});
 
 const Navbar = () => {
-  return (
-    <div className="navbar">
-      <div className="navContainer">
-        <span className="logo">OFFICELY</span>
-          <div className="navItems">
-              <Link to="/hotels" className="button is-black">Home</Link>
-              <button className="button is-black">Add</button>
-              <Link to="/login" className="button is-black">Log Out</Link>
-          </div>
-      </div>
-    </div>
-  )
-}
+    return (
+        <ThemeProvider theme={theme}>
+            <AppBar position="static">
+                <Toolbar>
+                    <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
+                        OFFICELY
+                    </Typography>
+                    <div>
+                        <Button component={Link} to="/hotels" color="inherit">
+                            Home
+                        </Button>
+                        <Button color="inherit">Add</Button>
+                        <Button component={Link} to="/login" color="inherit">
+                            Log Out
+                        </Button>
+                    </div>
+                </Toolbar>
+            </AppBar>
+        </ThemeProvider>
+    );
+};
 
-export default Navbar
+export default Navbar;
