@@ -6,7 +6,10 @@ import {
   Typography,
   IconButton,
   Box,
+  ImageList,
+  ImageListItem,
 } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import Navbar from '../../components/navbar/Navbar';
 
@@ -22,6 +25,8 @@ const AddOfficeSpaceForm = () => {
     // Add other fields as needed
   });
 
+  const [uploadedImages, setUploadedImages] = useState([]);
+
   const handleInputChange = (field, value) => {
     setFormData((prevData) => ({
       ...prevData,
@@ -30,16 +35,55 @@ const AddOfficeSpaceForm = () => {
   };
 
   const handleImageUpload = (e) => {
-    // Handle image upload logic here
     const file = e.target.files[0];
-    // You can store the file or perform any other necessary actions
+    setFormData((prevData) => ({
+      ...prevData,
+      image: file,
+    }));
+    setUploadedImages((prevImages) => [...prevImages, URL.createObjectURL(file)]);
     console.log("Image uploaded:", file);
   };
 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
-    // Add logic to submit the form data (formData) to your backend or perform other actions
-    console.log("Form data submitted:", formData);
+
+    try {
+      const formDataToSend = new FormData();
+      Object.entries(formData).forEach(([key, value]) => {
+        if (key === "images") {
+          value.forEach((image, index) => {
+            formDataToSend.append(`image${index + 1}`, image);
+          });
+        } else {
+          formDataToSend.append(key, value);
+        }
+      });
+
+      // Add your backend URL and configuration (e.g., method, headers) here
+      const response = await fetch("http://localhost:3001/offices", {
+        method: "POST",
+        headers: {
+          // Add any necessary headers
+        },
+        body: formDataToSend,
+      });
+
+      if (response.ok) {
+        console.log("Form data submitted successfully!");
+      } else {
+        console.error("Error submitting form data");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const handleImageDelete = (index) => {
+    setUploadedImages((prevImages) => {
+      const updatedImages = [...prevImages];
+      updatedImages.splice(index, 1);
+      return updatedImages;
+    });
   };
 
   return (
@@ -69,12 +113,12 @@ const AddOfficeSpaceForm = () => {
                 <input
                     type="file"
                     id="imageUpload"
-                    style={{ display: "none" }}
+                    style={{display: "none"}}
                     onChange={handleImageUpload}
                 />
                 <label htmlFor="imageUpload">
                   <IconButton component="span" color="primary">
-                    <AddPhotoAlternateIcon />
+                    <AddPhotoAlternateIcon/>
                   </IconButton>
                 </label>
                 <Typography variant="body1" component="label">
@@ -82,7 +126,19 @@ const AddOfficeSpaceForm = () => {
                 </Typography>
               </Stack>
 
-              <Stack direction={{ xs: "column", md: "row" }} spacing={3}>
+              <ImageList variant="masonry" cols={3} gap={5}>
+                {uploadedImages.map((imageUrl, index) => (
+                    <ImageListItem key={index} style={{ position: "relative" }}>
+                      <img
+                          src={imageUrl}
+                          alt={`Uploaded Image ${index}`}
+                          onClick={() => handleImageDelete(index)}
+                      />
+                    </ImageListItem>
+                ))}
+              </ImageList>
+
+              <Stack direction={{xs: "column", md: "row"}} spacing={3}>
                 <Stack spacing={3} flexGrow={4} width={1000}>
                   <TextField
                       label="Price"
