@@ -12,7 +12,6 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import Navbar from '../../components/navbar/Navbar';
-
 const AddOfficeSpaceForm = () => {
   const [formData, setFormData] = useState({
     title: "",
@@ -128,12 +127,18 @@ const AddOfficeSpaceForm = () => {
 
               <ImageList variant="masonry" cols={3} gap={5}>
                 {uploadedImages.map((imageUrl, index) => (
-                    <ImageListItem key={index} style={{ position: "relative" }}>
+                    <ImageListItem key={index}>
                       <img
                           src={imageUrl}
                           alt={`Uploaded Image ${index}`}
-                          onClick={() => handleImageDelete(index)}
+                          style={{ width: "100%", height: "100%" }}
                       />
+                      <IconButton
+                          style={{ position: "absolute", top: "5px", right: "5px", color: "white" }}
+                          onClick={() => handleImageDelete(index)}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
                     </ImageListItem>
                 ))}
               </ImageList>
