@@ -29,7 +29,7 @@ const Navbar = () => {
                         <Button component={Link} to="/hotels" color="inherit">
                             Home
                         </Button>
-                        <Button color="inherit">Add</Button>
+                        <Button component={Link} to="/add" color="inherit">Add</Button>
                         <Button component={Link} to="/login" color="inherit">
                             Log Out
                         </Button>
