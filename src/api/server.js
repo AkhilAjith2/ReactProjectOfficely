@@ -119,6 +119,21 @@ const users = [
   { id: 2, email: 'davidabraham@gmail.com', password: 'password' },
 
 ];
+
+// Define a route for "/offices"
+app.post('/offices', (req, res) => {
+  const newOfficeSpace = req.body;
+  
+  // Assign a unique ID (for simplicity, incrementing from 1)
+  newOfficeSpace.id = officeSpaces.length + 1;
+
+  // Add the new office space to the array
+  officeSpaces.push(newOfficeSpace);
+
+  // Respond with the added office space
+  res.status(201).json(newOfficeSpace);
+});
+
 // Define a route for the root URL
 app.get('/', (req, res) => {
   res.send('Welcome to the Officely API!')

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate from React Router
 import {
   TextField,
   Button,
@@ -11,6 +12,8 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import Navbar from '../../components/navbar/Navbar';
 
 const EditOfficeSpaceForm = () => {
+  const navigate = useNavigate(); // Initialize navigate from React Router
+
   const [formData, setFormData] = useState({
     id: "",
     title: "",
@@ -21,8 +24,8 @@ const EditOfficeSpaceForm = () => {
     taxInfo: "",
     description: "",
     expanded_images: [],
-  
   });
+
 
   const handleInputChange = (field, value) => {
     setFormData((prevData) => ({
@@ -68,6 +71,11 @@ const EditOfficeSpaceForm = () => {
     }
   };
 
+  const cancelHandler = () => {
+    // Use the navigate function to go back to the "/offices" path
+    navigate("/offices");
+  };
+  
   return (
       <div>
         <Navbar />
@@ -154,12 +162,13 @@ const EditOfficeSpaceForm = () => {
             </form>
           </Box>
           <Stack
-            direction="row"
-            justifyContent="space-between"
-            marginTop={2}
-            sx={{ paddingLeft: "1.25%", paddingRight: "1.25%" }}
+              direction="row"
+              justifyContent="space-between"
+              marginTop={2}
+              sx={{ paddingLeft: "1.25%", paddingRight: "1.25%" }}
           >
-            <Button variant="outlined" color="error">
+            {/* Use the cancelHandler function for the onClick event of the Cancel button */}
+            <Button variant="outlined" color="error" onClick={cancelHandler}>
               Cancel
             </Button>
             <Button type="submit" variant="contained" sx={{ color: "#fff", backgroundColor: "#000" }}>

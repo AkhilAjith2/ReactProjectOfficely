@@ -6,7 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="f9343541-8a16-48f6-850d-282b75f62d36" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ReactProjectOfficely.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ReactProjectOfficely.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/server.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/add/add.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/add/add.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/edit/edit.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/edit/edit.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,6 +59,7 @@
       <workItem from="1704820837207" duration="674000" />
       <workItem from="1705258883315" duration="10366000" />
       <workItem from="1706551423079" duration="1269000" />
+      <workItem from="1706795918681" duration="9402000" />
     </task>
     <servers />
   </component>
