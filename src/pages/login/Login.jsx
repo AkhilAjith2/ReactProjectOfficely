@@ -110,7 +110,7 @@ const Login = () => {
 
       if (matchedUser) {
         console.log('Login successful');
-        navigate('/hotels');
+        navigate('/offices');
       } else {
         console.log('Invalid email or password');
         setLoginError("Incorrect Email Address or Password Entered!")

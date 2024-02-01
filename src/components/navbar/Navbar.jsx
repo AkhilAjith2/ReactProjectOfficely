@@ -26,11 +26,11 @@ const Navbar = () => {
                         OFFICELY
                     </Typography>
                     <div>
-                        <Button component={Link} to="/hotels" color="inherit">
+                        <Button component={Link} to="/offices" color="inherit">
                             Home
                         </Button>
                         <Button component={Link} to="/add" color="inherit">Add</Button>
-                        <Button component={Link} to="/login" color="inherit">
+                        <Button component={Link} to="/" color="inherit">
                             Log Out
                         </Button>
                     </div>

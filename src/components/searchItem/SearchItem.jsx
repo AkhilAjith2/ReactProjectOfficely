@@ -11,12 +11,12 @@ const SearchItem = ({ space }) => {
         className="siImg"
       />
       <div className="siDesc">
-        <h1 className="siTitle" onClick={() => navigate(`/hotels/${space.id}`)}>{space.title}</h1>
-        <span className="siSubtitle" onClick={() => navigate(`/hotels/${space.id}`)}>{space.address}</span>
-        <span className="siFeatures" onClick={() => navigate(`/hotels/${space.id}`)}>{space.features}</span>
+        <h1 className="siTitle" >{space.title}</h1>
+        <span className="siSubtitle">{space.address}</span>
+        <span className="siFeatures">{space.features}</span>
       </div>
       <div className="siDetails">
-        <button className="siCheckButton" onClick={() => navigate(`/hotels/${space.id}`)}>Edit</button>
+        <button className="siCheckButton" onClick={() => navigate(`/offices/${space.id}`)}>Edit</button>
         <div className="siDetailTexts">
           <span className="siPrice">{`$${space.price}`}</span>
           <span className="siTaxOp">{space.taxInfo}</span>

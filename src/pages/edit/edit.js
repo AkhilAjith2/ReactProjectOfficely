@@ -10,7 +10,7 @@ import {
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import Navbar from '../../components/navbar/Navbar';
 
-const AddOfficeSpaceForm = () => {
+const EditOfficeSpaceForm = () => {
   const [formData, setFormData] = useState({
     id: "",
     title: "",
@@ -21,6 +21,7 @@ const AddOfficeSpaceForm = () => {
     taxInfo: "",
     description: "",
     expanded_images: [],
+  
   });
 
   const handleInputChange = (field, value) => {
@@ -72,7 +73,7 @@ const AddOfficeSpaceForm = () => {
         <Navbar />
         <div className="office_space_form">
           <Typography sx={{marginTop: "2%", paddingLeft: "1.5%"}}>
-            <h2>Create A New Office Listing</h2>
+            <h2>Edit the Office Space Listing</h2>
           </Typography>
           <Box
               sx={{
@@ -170,4 +171,4 @@ const AddOfficeSpaceForm = () => {
   );
 };
 
-export default AddOfficeSpaceForm;
+export default EditOfficeSpaceForm;

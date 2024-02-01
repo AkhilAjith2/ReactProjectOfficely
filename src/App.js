@@ -7,15 +7,15 @@ import Hotel from "./pages/hotel/Hotel";
 import List from "./pages/list/List";
 import Login from "./pages/login/Login";
 import AddOfficeSpaceForm from "./pages/add/add";
+import EditOfficeSpaceForm from "./pages/edit/edit";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<List/>}/>
-        <Route path="/hotels" element={<List/>}/>
-        <Route path="/hotels/:id" element={<Hotel/>}/>
-        <Route path="/login" element={<Login/>}/>
+        <Route path="/" element={<Login/>}/>
+        <Route path="/offices" element={<List/>}/>
+        <Route path="/offices/:id" element={<EditOfficeSpaceForm/>}/>
         <Route path="/add" element={<AddOfficeSpaceForm/>}/>
       </Routes>
     </BrowserRouter>
