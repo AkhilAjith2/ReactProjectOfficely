@@ -14,7 +14,7 @@ const List = () => {
 
   useEffect(() => {
     // TODO: for some reason it is called twice
-    OfficeStore.getState().fetchOffices(0, 0)
+    OfficeStore.getState().fetchOffices(5, 0)
       .then(response => response.json())
       .then(data => {
         console.log(data);
