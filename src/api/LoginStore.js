@@ -1,32 +1,17 @@
 import { create } from 'zustand'
-// import { officeSpaces } from './data';
+import Cookies from 'js-cookie';
 
 const url = 'https://officely.azurewebsites.net';
 
-// TODO: add fetch and save methods after update in the backend
-const OfficeStore = create((set) => ({
-	offices: [],
-	setOffices: 
-        (offices) => set({ offices }),
-        
-    fetchOffices: 
-        async (pageSize, pageNum) => fetch(`${url}/offices?pageSize=${pageSize}&pageNum=${pageNum}`, {
-            method: 'GET',
-            headers: {
-              'Accept': '*/*', 
-              'Authorization': `Bearer ${LoginStore.getState().jwttoken}`
-            }
-          }),
-        //async (pageSize, pageNum) => console.log('fetching offices'),
-	// saveOffice: async (office) => fetch(`${url}/office`, {
-	// 	method: 'POST', 
-	// 	headers: {'Content-Type': 'application/json'},
-	// 	body: JSON.stringify({value: language})})
-}))
-
 // TODD: check if user is admin, probably it will be done server side 
 const LoginStore = create((set) => ({
-	jwttoken: "",
+	jwttoken: Cookies.get('jwttoken'),
+    setToken: 
+        (jwttoken) => 
+        {
+            Cookies.set('jwttoken', jwttoken, { expires: 1 })
+            set({ jwttoken })
+        },
 	login: 
         async (username, password) => 
         {
@@ -42,7 +27,7 @@ const LoginStore = create((set) => ({
                     throw new Error('Invalid credentials');
                 }
                 const data = await response.json();
-                set({ jwttoken: data.jwttoken })
+                LoginStore.getState().setToken(data.jwttoken)
                 console.log(data)
             } catch (error) {
                 console.error('Login failed:', error.message);
@@ -65,6 +50,7 @@ const LoginStore = create((set) => ({
                   throw new Error(`Request failed: ${response.statusText}`);
                 }
                 set({ jwttoken: "" })
+                Cookies.remove('jwttoken');
                 return response;
             } catch (error) {
                 console.error('Authenticated request failed:', error.message);
@@ -73,14 +59,4 @@ const LoginStore = create((set) => ({
         }
 }))
 
-const safeCall = async (jwttoken, method = 'GET', body = null) => {
-    return fetch(url, {
-        method: method,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${jwttoken}`,
-        },
-        body: body ? JSON.stringify(body) : null,
-      });
-  }
-export { OfficeStore, LoginStore};
+export default LoginStore;

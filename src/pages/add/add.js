@@ -13,18 +13,25 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import Navbar from "../../components/navbar/Navbar";
+import OfficeStore from "../../api/OfficeStore";
 
 const AddOfficeSpaceForm = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    title: "",
-    address: "",
-    image: "",
-    features: "",
-    price: "",
-    taxInfo: "",
+    id: 0,
+    name: "",
     description: "",
-    expanded_images: [],
+    pricePerDay: 0,
+    isActive: true,
+    address: "",
+    availableFrom: "2024-01-01T00:00:00.0000",
+    availableTo: "2030-01-01T00:00:00.0000",
+    amenities: [],
+    officeType: "CONFERENCE_ROOM",
+    rating: 0,
+    officeArea: 0,
+    mainPhoto: "",
+    photos: []
   });
 
   const [uploadedImages, setUploadedImages] = useState([]);
@@ -47,23 +54,15 @@ const AddOfficeSpaceForm = () => {
 
   const submitHandler = async (event) => {
     event.preventDefault();
-
-    fetch("http://localhost:3001/offices", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    })
-        .then((response) => response.json())
-        .then((data) => {
-          // Handle the response from the server if needed
-          console.log('New office space added:', data);
-        })
-        .catch((error) => {
-          console.error('Error adding office space:', error);
-        });
-    navigate("/offices");
+    OfficeStore.getState().addOffice(formData)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Office data:", data);
+        navigate("/offices");
+      })
+      .catch((error) => {
+        console.error("Error adding office data:", error);
+      });
   };
 
   const handleImageDelete = (index) => {
@@ -75,7 +74,6 @@ const AddOfficeSpaceForm = () => {
   };
 
   const cancelHandler = () => {
-    // Use the navigate function to go back to the "/offices" path
     navigate("/offices");
   };
 
@@ -198,6 +196,7 @@ const AddOfficeSpaceForm = () => {
                     type="submit"
                     variant="contained"
                     sx={{ color: "#fff", backgroundColor: "#000" }}
+                    onClick={submitHandler}
                 >
                   Submit
                 </Button>

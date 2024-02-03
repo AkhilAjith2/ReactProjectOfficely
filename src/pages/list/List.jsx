@@ -4,7 +4,8 @@ import SearchBar from './Search';
 import SearchItem from '../../components/searchItem/SearchItem';
 import Navbar from '../../components/navbar/Navbar';
 import Header from '../../components/header/Header';
-import { OfficeStore } from '../../api/store';
+import OfficeStore from '../../api/OfficeStore';
+import LoginStore from '../../api/LoginStore';
 
 // TODO: paging
 const List = () => {
@@ -13,11 +14,13 @@ const List = () => {
   const [sortOption, setSortOption] = useState('default'); // default, alphabetical, price, features
 
   useEffect(() => {
-    // TODO: for some reason it is called twice
     OfficeStore.getState().fetchOffices(5, 0)
       .then(response => response.json())
-      .then(data => {
-        console.log(data);
+      .then(response => {
+        console.log(response);
+        OfficeStore.getState().setOffices(response);
+        setOfficeSpaces(response);
+        setFilteredOfficeSpaces(response);
       })
       .catch(error => console.error(error));
   }, []);

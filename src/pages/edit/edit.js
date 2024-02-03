@@ -14,6 +14,7 @@ import {
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Navbar from '../../components/navbar/Navbar';
+import OfficeStore from "../../api/OfficeStore";
 
 
 const EditOfficeSpaceForm = () => {
@@ -22,41 +23,35 @@ const EditOfficeSpaceForm = () => {
   const [uploadedImages, setUploadedImages] = useState([]);
 
   const [formData, setFormData] = useState({
-    id: "",
-    title: "",
-    address: "",
-    image: "",
-    features: "",
-    price: "",
-    taxInfo: "",
+    id: 0,
+    name: "",
     description: "",
-    expanded_images: [],
+    pricePerDay: 0,
+    isActive: true,
+    address: "",
+    availableFrom: "2024-02-03T21:46:31.282Z",
+    availableTo: "2024-02-03T21:46:31.282Z",
+    amenities: [],
+    officeType: "CONFERENCE_ROOM",
+    rating: 0,
+    officeArea: 0,
+    mainPhoto: "",
+    photos: []
   });
 
   useEffect(() => {
     console.log("ID from params:", id);
   
-    const fetchOfficeData = async () => {
-      try {
-        const response = await fetch("http://localhost:3001/offices");
-        if (response.ok) {
-          const allOfficeData = await response.json();
-          console.log("All Office Data:", allOfficeData);
-  
-          const officeDataById = allOfficeData.find(office => office.id.toString() === id);
-          console.log("Office Data by ID:", officeDataById);
-  
-          if (officeDataById) {
-            setFormData(officeDataById);
-          } else {
-            console.error("Office data not found for id:", id);
-          }
-        } else {
-          console.error("Error fetching all office data");
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
+    const fetchOfficeData = () => {
+      OfficeStore.getState().fetchOffice(id)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Office data:", data);
+          setFormData(data);
+        })
+        .catch((error) => {
+          console.error("Error fetching office data:", error);
+        });
     };
   
     if (id) {
@@ -90,35 +85,18 @@ const EditOfficeSpaceForm = () => {
   };
 
   const submitHandler = async (event) => {
+    console.log('Form data:', formData);
     event.preventDefault();
-
-    try {
-      const formDataToSend = new FormData();
-      Object.entries(formData).forEach(([key, value]) => {
-        formDataToSend.append(key, value);
-      });
-
-      // Add your backend URL and configuration (e.g., method, headers) here
-      const response = await fetch("http://localhost:3001/offices", {
-        method: "POST",
-        headers: {
-          // Add any necessary headers
-        },
-        body: formDataToSend,
-      });
-
-      if (response.ok) {
-        console.log("Form data submitted successfully!");
-      } else {
-        console.error("Error submitting form data");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
+    OfficeStore.getState().updateOffice(formData)
+    .then((response) => response.json())
+    .then((data) => {
+      console.log('Office space updated:', data);
+      navigate("/offices");
+    })
+    .catch((error) => {})
   };
 
   const cancelHandler = () => {
-    
     navigate("/offices");
   };
   
@@ -166,7 +144,7 @@ const EditOfficeSpaceForm = () => {
               </Stack>
               <Stack direction="column" spacing={3} marginY={3}>
               <ImageList variant="masonry" cols={3} gap={10}>
-                  {formData.expanded_images.map((imageUrl, index) => {
+                  {formData.photos.map((imageUrl, index) => {
                     return (
                       <ImageListItem key={index}>
                         <img
@@ -264,7 +242,7 @@ const EditOfficeSpaceForm = () => {
             <Button variant="outlined" color="error" onClick={cancelHandler}>
               Cancel
             </Button>
-            <Button type="submit" variant="contained" sx={{ color: "#fff", backgroundColor: "#000" }}>
+            <Button type="submit" variant="contained" sx={{ color: "#fff", backgroundColor: "#000" }} onClick={submitHandler}>
               Submit
             </Button>
           </Stack>

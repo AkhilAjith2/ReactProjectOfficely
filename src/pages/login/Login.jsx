@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { Button, TextField, Grid, Paper } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { LoginStore } from '../../api/store';
+import LoginStore from '../../api/LoginStore';
 
 const LeftSideImage = styled.img`
   width: 100%;
