@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { Button, TextField, Grid, Paper } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { LoginStore } from '../../api/store';
 
 const LeftSideImage = styled.img`
   width: 100%;
@@ -68,12 +69,14 @@ const Login = () => {
   const navigate = useNavigate();
 
   const validateEmail = () => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setEmailError('Invalid email address');
-      return false;
-    }
-    setEmailError('');
+    // TODO: consider if want to use email or username to login
+
+    // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // if (!emailRegex.test(email)) {
+    //   setEmailError('Invalid email address');
+    //   return false;
+    // }
+    // setEmailError('');
     return true;
   };
 
@@ -102,21 +105,20 @@ const Login = () => {
   const isValid = () => validateEmail() && validatePassword();
 
   const fetchData = () =>{
-    fetch('http://localhost:3001/users')
-    .then(response => response.json())
-    .then(users => {
-  
-      const matchedUser = users.find(user => user.email === email && user.password === password);
+    // TODO: change to email or username and update .login() method
 
-      if (matchedUser) {
-        console.log('Login successful');
-        navigate('/offices');
-      } else {
-        console.log('Invalid email or password');
-        setLoginError("Incorrect Email Address or Password Entered!")
-      }
-    })
-
+    LoginStore.getState()
+      .login(email, password)
+      .then(() =>
+        {
+          navigate('/offices');
+        }
+      )
+      .catch((error) => 
+        {
+          console.error('Invalid email or password');
+          setLoginError("Incorrect Email Address or Password Entered!")
+        })
   }
 
   const handleSubmit = (e) => {

@@ -4,23 +4,26 @@ import SearchBar from './Search';
 import SearchItem from '../../components/searchItem/SearchItem';
 import Navbar from '../../components/navbar/Navbar';
 import Header from '../../components/header/Header';
+import { OfficeStore } from '../../api/store';
 
+// TODO: paging
 const List = () => {
-  const [officeSpaces, setOfficeSpaces] = useState([]);
-  const [filteredOfficeSpaces, setFilteredOfficeSpaces] = useState([]);
+  const [officeSpaces, setOfficeSpaces] = useState(OfficeStore.getState().offices);
+  const [filteredOfficeSpaces, setFilteredOfficeSpaces] = useState(OfficeStore.getState().offices);
   const [sortOption, setSortOption] = useState('default'); // default, alphabetical, price, features
 
   useEffect(() => {
-    fetch('http://localhost:3001/offices')
-        .then(response => response.json())
-        .then(data => {
-          setOfficeSpaces(data);
-          setFilteredOfficeSpaces(data);
-        })
-        .catch(error => console.error('Error fetching data:', error));
+    // TODO: for some reason it is called twice
+    OfficeStore.getState().fetchOffices(10, 0)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+      })
+      .catch(error => console.error(error));
   }, []);
 
   const handleSearch = (searchTerm) => {
+    // TODO: Serverside filtering    
     const filteredSpaces = officeSpaces.filter(space =>
         space.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         space.address.toLowerCase().includes(searchTerm.toLowerCase()) ||

@@ -5,6 +5,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { LoginStore } from '../../api/store';
 
 const theme = createTheme({
     palette: {
@@ -30,7 +31,7 @@ const Navbar = () => {
                             Home
                         </Button>
                         <Button component={Link} to="/add" color="inherit">Add</Button>
-                        <Button component={Link} to="/" color="inherit">
+                        <Button component={Link} to="/" color="inherit" onClick={LoginStore.getState().logout}>
                             Log Out
                         </Button>
                     </div>

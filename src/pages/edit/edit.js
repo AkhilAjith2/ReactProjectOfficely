@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState,useEffect} from "react";
+import { useParams } from 'react-router-dom';
+import { useNavigate } from "react-router-dom"; // Import useNavigate from React Router
 import {
   TextField,
   Button,
@@ -11,6 +13,9 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import Navbar from '../../components/navbar/Navbar';
 
 const EditOfficeSpaceForm = () => {
+  const navigate = useNavigate(); 
+  const { id } = useParams();
+
   const [formData, setFormData] = useState({
     id: "",
     title: "",
@@ -21,8 +26,39 @@ const EditOfficeSpaceForm = () => {
     taxInfo: "",
     description: "",
     expanded_images: [],
-  
   });
+
+  useEffect(() => {
+    console.log("ID from params:", id);
+  
+    const fetchOfficeData = async () => {
+      try {
+        const response = await fetch("http://localhost:3001/offices");
+        if (response.ok) {
+          const allOfficeData = await response.json();
+          console.log("All Office Data:", allOfficeData);
+  
+          const officeDataById = allOfficeData.find(office => office.id.toString() === id);
+          console.log("Office Data by ID:", officeDataById);
+  
+          if (officeDataById) {
+            setFormData(officeDataById);
+          } else {
+            console.error("Office data not found for id:", id);
+          }
+        } else {
+          console.error("Error fetching all office data");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+  
+    if (id) {
+      fetchOfficeData();
+    }
+  }, [id]);
+
 
   const handleInputChange = (field, value) => {
     setFormData((prevData) => ({
@@ -68,6 +104,11 @@ const EditOfficeSpaceForm = () => {
     }
   };
 
+  const cancelHandler = () => {
+    
+    navigate("/offices");
+  };
+  
   return (
       <div>
         <Navbar />
@@ -154,12 +195,13 @@ const EditOfficeSpaceForm = () => {
             </form>
           </Box>
           <Stack
-            direction="row"
-            justifyContent="space-between"
-            marginTop={2}
-            sx={{ paddingLeft: "1.25%", paddingRight: "1.25%" }}
+              direction="row"
+              justifyContent="space-between"
+              marginTop={2}
+              sx={{ paddingLeft: "1.25%", paddingRight: "1.25%" }}
           >
-            <Button variant="outlined" color="error">
+            {/* Use the cancelHandler function for the onClick event of the Cancel button */}
+            <Button variant="outlined" color="error" onClick={cancelHandler}>
               Cancel
             </Button>
             <Button type="submit" variant="contained" sx={{ color: "#fff", backgroundColor: "#000" }}>

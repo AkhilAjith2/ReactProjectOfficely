@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   TextField,
   Button,
@@ -11,10 +12,11 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-import Navbar from '../../components/navbar/Navbar';
+import Navbar from "../../components/navbar/Navbar";
+
 const AddOfficeSpaceForm = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    id: "",
     title: "",
     address: "",
     image: "",
@@ -26,7 +28,6 @@ const AddOfficeSpaceForm = () => {
   });
 
   const [uploadedImages, setUploadedImages] = useState([]);
-
   const handleInputChange = (field, value) => {
     setFormData((prevData) => ({
       ...prevData,
@@ -47,35 +48,22 @@ const AddOfficeSpaceForm = () => {
   const submitHandler = async (event) => {
     event.preventDefault();
 
-    try {
-      const formDataToSend = new FormData();
-      Object.entries(formData).forEach(([key, value]) => {
-        if (key === "images") {
-          value.forEach((image, index) => {
-            formDataToSend.append(`image${index + 1}`, image);
-          });
-        } else {
-          formDataToSend.append(key, value);
-        }
-      });
-
-      // Add your backend URL and configuration (e.g., method, headers) here
-      const response = await fetch("http://localhost:3001/offices", {
-        method: "POST",
-        headers: {
-          // Add any necessary headers
-        },
-        body: formDataToSend,
-      });
-
-      if (response.ok) {
-        console.log("Form data submitted successfully!");
-      } else {
-        console.error("Error submitting form data");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
+    fetch("http://localhost:3001/offices", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    })
+        .then((response) => response.json())
+        .then((data) => {
+          // Handle the response from the server if needed
+          console.log('New office space added:', data);
+        })
+        .catch((error) => {
+          console.error('Error adding office space:', error);
+        });
+    navigate("/offices");
   };
 
   const handleImageDelete = (index) => {
@@ -86,17 +74,22 @@ const AddOfficeSpaceForm = () => {
     });
   };
 
+  const cancelHandler = () => {
+    // Use the navigate function to go back to the "/offices" path
+    navigate("/offices");
+  };
+
   return (
       <div>
         <Navbar />
         <div className="office_space_form">
-          <Typography sx={{marginTop: "2%", paddingLeft: "1.5%"}}>
+          <Typography sx={{ marginTop: "2%", paddingLeft: "1.5%" }}>
             <h2>Create A New Office Listing</h2>
           </Typography>
           <Box
               sx={{
-                padding: { xs: "24px", md: "32px" },
-                margin: { xs: "16px", md: "32px" },
+                padding: {xs: "24px", md: "32px"},
+                margin: {xs: "16px", md: "32px"},
                 boxShadow: "0px 0px 16px rgba(0, 0, 0, 0.1)",
                 borderRadius: "8px",
                 backgroundColor: "#fff",
@@ -135,17 +128,21 @@ const AddOfficeSpaceForm = () => {
                       <img
                           src={imageUrl}
                           alt={`Uploaded Image ${index}`}
-                          style={{ width: "100%", height: "100%" }}
+                          style={{width: "100%", height: "100%"}}
                       />
                       <IconButton
-                          style={{ position: "absolute", top: "5px", right: "5px", color: "white" }}
+                          style={{
+                            position: "absolute",
+                            top: "5px",
+                            right: "5px",
+                            color: "white",
+                          }}
                           onClick={() => handleImageDelete(index)}
                       >
-                        <DeleteIcon />
+                        <DeleteIcon/>
                       </IconButton>
                     </ImageListItem>
                 ))}
-                
               </ImageList>
 
               <Stack direction={{xs: "column", md: "row"}} spacing={3}>
@@ -188,24 +185,27 @@ const AddOfficeSpaceForm = () => {
                     margin="normal"
                 />
               </Stack>
+              <Stack
+                  direction="row"
+                  justifyContent="space-between"
+                  marginTop={2}
+                  sx={{ paddingLeft: "1.25%", paddingRight: "1.25%" }}
+              >
+                <Button variant="outlined" color="error" onClick={cancelHandler}>
+                  Cancel
+                </Button>
+                <Button
+                    type="submit"
+                    variant="contained"
+                    sx={{ color: "#fff", backgroundColor: "#000" }}
+                >
+                  Submit
+                </Button>
+              </Stack>
             </form>
           </Box>
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            marginTop={2}
-            sx={{ paddingLeft: "1.25%", paddingRight: "1.25%" }}
-          >
-            <Button variant="outlined" color="error">
-              Cancel
-            </Button>
-            <Button type="submit" variant="contained" sx={{ color: "#fff", backgroundColor: "#000" }}>
-              Submit
-            </Button>
-          </Stack>
         </div>
       </div>
   );
 };
-
 export default AddOfficeSpaceForm;
