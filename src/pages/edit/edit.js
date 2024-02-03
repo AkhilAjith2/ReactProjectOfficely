@@ -200,6 +200,7 @@ const EditOfficeSpaceForm = () => {
               marginTop={2}
               sx={{ paddingLeft: "1.25%", paddingRight: "1.25%" }}
           >
+          
             {/* Use the cancelHandler function for the onClick event of the Cancel button */}
             <Button variant="outlined" color="error" onClick={cancelHandler}>
               Cancel
