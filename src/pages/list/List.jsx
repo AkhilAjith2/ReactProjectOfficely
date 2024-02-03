@@ -28,9 +28,9 @@ const List = () => {
   const handleSearch = (searchTerm) => {
     // TODO: Serverside filtering    
     const filteredSpaces = officeSpaces.filter(space =>
-        space.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        space.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         space.address.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        space.features.toLowerCase().includes(searchTerm.toLowerCase())
+        space.officeType.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     setFilteredOfficeSpaces(filteredSpaces);
@@ -45,17 +45,17 @@ const List = () => {
     switch (selectedSortOption) {
       case 'alphabetical':
         sortedSpaces = [...filteredOfficeSpaces].sort((a, b) =>
-            a.title.localeCompare(b.title)
+            a.name.localeCompare(b.name)
         );
         break;
       case 'price':
         sortedSpaces = [...filteredOfficeSpaces].sort((a, b) =>
-            parseFloat(a.price) - parseFloat(b.price)
+            parseFloat(a.pricePerDay) - parseFloat(b.pricePerDay)
         );
         break;
       case 'features':
         sortedSpaces = [...filteredOfficeSpaces].sort((a, b) =>
-            a.features.localeCompare(b.features)
+            a.officeType.localeCompare(b.officeType)
         );
         break;
       default:
