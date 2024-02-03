@@ -11,7 +11,7 @@ import LoginStore from '../../api/LoginStore';
 const List = () => {
   const [officeSpaces, setOfficeSpaces] = useState(OfficeStore.getState().offices);
   const [filteredOfficeSpaces, setFilteredOfficeSpaces] = useState(OfficeStore.getState().offices);
-  const [sortOption, setSortOption] = useState('default'); // default, alphabetical, price, features
+  const [sortOption, setSortOption] = useState('default'); 
 
   useEffect(() => {
     OfficeStore.getState().fetchOffices(5, 0)

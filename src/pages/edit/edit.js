@@ -15,6 +15,7 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Navbar from '../../components/navbar/Navbar';
 import OfficeStore from "../../api/OfficeStore";
+import { formatOfficeType } from '../../components/searchItem/SearchItem';
 
 
 const EditOfficeSpaceForm = () => {
@@ -105,7 +106,7 @@ const EditOfficeSpaceForm = () => {
         <Navbar />
         <div className="office_space_form">
           <Typography sx={{marginTop: "2%", paddingLeft: "1.5%"}}>
-            <h2>Edit the Office Space Listing</h2>
+            <h2>Edit and View the Office Space Listing</h2>
           </Typography>
           <Box
               sx={{
@@ -120,7 +121,7 @@ const EditOfficeSpaceForm = () => {
               <TextField
                   label="Title"
                   placeholder="Title"
-                  value={formData.title}
+                  value={formData.name}
                   onChange={(e) => handleInputChange("title", e.target.value)}
                   fullWidth
                   margin="normal"
@@ -196,7 +197,7 @@ const EditOfficeSpaceForm = () => {
                       label="Price"
                       placeholder="Price"
                       type="number"
-                      value={formData.price}
+                      value={formData.pricePerDay}
                       onChange={(e) => handleInputChange("price", e.target.value)}
                       fullWidth
                       margin="normal"
@@ -212,7 +213,7 @@ const EditOfficeSpaceForm = () => {
                   <TextField
                       label="Features"
                       placeholder="Features"
-                      value={formData.features}
+                      value={formatOfficeType(formData.officeType)}
                       onChange={(e) => handleInputChange("features", e.target.value)}
                       fullWidth
                       margin="normal"
@@ -252,3 +253,4 @@ const EditOfficeSpaceForm = () => {
 };
 
 export default EditOfficeSpaceForm;
+

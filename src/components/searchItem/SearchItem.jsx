@@ -2,15 +2,17 @@ import React from "react";
 import "./searchItem.css";
 import { useNavigate } from 'react-router-dom';
 
+export const formatOfficeType = (officeType) => {
+  const lowerCaseOfficeType = officeType.toLowerCase();
+  const words = lowerCaseOfficeType.split('_');
+  const formattedOfficeType = words.map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+  return formattedOfficeType;
+};
+
 const SearchItem = ({ space }) => {
   const navigate = useNavigate();
 
-  const formatOfficeType = (officeType) => {
-      const lowerCaseOfficeType = officeType.toLowerCase();
-      const words = lowerCaseOfficeType.split('_');
-      const formattedOfficeType = words.map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-      return formattedOfficeType;
-  };
+  
   return (
     <div className="searchItem">
       
