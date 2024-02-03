@@ -4,7 +4,13 @@ import { useNavigate } from 'react-router-dom';
 
 const SearchItem = ({ space }) => {
   const navigate = useNavigate();
- 
+
+  const formatOfficeType = (officeType) => {
+      const lowerCaseOfficeType = officeType.toLowerCase();
+      const words = lowerCaseOfficeType.split('_');
+      const formattedOfficeType = words.map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+      return formattedOfficeType;
+  };
   return (
     <div className="searchItem">
       
@@ -20,7 +26,7 @@ const SearchItem = ({ space }) => {
       <div className="siDesc">
         <h1 className="siTitle">{space.name}</h1>
         <span className="siSubtitle">{space.address}</span>
-        <span className="siFeatures">{space.officeType}</span>
+        <span className="siFeatures">{formatOfficeType(space.officeType)}</span>
       </div>
       <div className="siDetails">
         <button
