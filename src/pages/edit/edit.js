@@ -8,13 +8,18 @@ import {
   Typography,
   IconButton,
   Box,
+  ImageList,
+  ImageListItem,
 } from "@mui/material";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import DeleteIcon from "@mui/icons-material/Delete";
 import Navbar from '../../components/navbar/Navbar';
+
 
 const EditOfficeSpaceForm = () => {
   const navigate = useNavigate(); 
   const { id } = useParams();
+  const [uploadedImages, setUploadedImages] = useState([]);
 
   const [formData, setFormData] = useState({
     id: "",
@@ -74,6 +79,14 @@ const EditOfficeSpaceForm = () => {
       image: file,
     }));
     console.log("Image uploaded:", file);
+  };
+
+  const handleImageDelete = (index) => {
+    setUploadedImages((prevImages) => {
+      const updatedImages = [...prevImages];
+      updatedImages.splice(index, 1);
+      return updatedImages;
+    });
   };
 
   const submitHandler = async (event) => {
@@ -151,7 +164,54 @@ const EditOfficeSpaceForm = () => {
                   Add Images
                 </Typography>
               </Stack>
+              <Stack direction="column" spacing={3} marginY={3}>
+              <ImageList variant="masonry" cols={3} gap={10}>
+                  {formData.expanded_images.map((imageUrl, index) => {
+                    return (
+                      <ImageListItem key={index}>
+                        <img
+                          src={imageUrl}
+                          alt={`Expanded Image ${index}`}
+                          style={{ width: "100%", height: "100%" }}
+                        />
+                        <IconButton
+                          style={{
+                            position: "absolute",
+                            top: "5px",
+                            right: "5px",
+                            color: "white",
+                          }}
+                          onClick={() => handleImageDelete(index)}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </ImageListItem>
+                    );
+                  })}
+                  {uploadedImages.map((imageUrl, index) => (
+                    <ImageListItem key={index}>
+                      <img
+                        src={imageUrl}
+                        alt={`Uploaded Image ${index}`}
+                        style={{ width: "100%", height: "100%" }}
+                      />
+                      <IconButton
+                        style={{
+                          position: "absolute",
+                          top: "5px",
+                          right: "5px",
+                          color: "white",
+                        }}
+                        onClick={() => handleImageDelete(index)}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </ImageListItem>
+                  ))}
+              </ImageList>
 
+              </Stack>
+              
               <Stack direction={{ xs: "column", md: "row" }} spacing={3}>
                 <Stack spacing={3} flexGrow={4} width={1000}>
                   <TextField
@@ -200,8 +260,7 @@ const EditOfficeSpaceForm = () => {
               marginTop={2}
               sx={{ paddingLeft: "1.25%", paddingRight: "1.25%" }}
           >
-          
-            {/* Use the cancelHandler function for the onClick event of the Cancel button */}
+        
             <Button variant="outlined" color="error" onClick={cancelHandler}>
               Cancel
             </Button>

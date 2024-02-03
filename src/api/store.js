@@ -8,6 +8,7 @@ const OfficeStore = create((set) => ({
 	offices: officeSpaces,
 	setOffices: 
         (offices) => set({ offices }),
+        
     fetchOffices: 
         async (pageSize, pageNum) => fetch(`${url}/offices?pageSize=${pageSize}&pageNum=${pageNum}`, {
             method: 'GET',
