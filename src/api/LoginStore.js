@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import Cookies from 'js-cookie';
 
 const url = 'https://officely.azurewebsites.net';
+//const url = 'http://localhost:8080';
 
 const LoginStore = create((set) => ({
     jwttoken: Cookies.get('jwttoken'),
@@ -21,7 +22,8 @@ const LoginStore = create((set) => ({
         const response = await fetch(`${url}/auth/login`, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
+            'Accept': '*/*',
+            'Content-Type': 'application/json', 
           },
           body: JSON.stringify({ username, password }),
         });
@@ -56,7 +58,8 @@ const LoginStore = create((set) => ({
           const response = await fetch(`${url}/auth/logout`, {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json',
+              'Accept': '*/*',
+              'Content-Type': 'application/json', 
               'Authorization': `Bearer ${jwttoken}`,
             },
           });
