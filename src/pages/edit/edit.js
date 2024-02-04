@@ -43,7 +43,7 @@ const amenitiesOptions = [
 ];
 
 const EditOfficeSpaceForm = () => {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const { id } = useParams();
   const [uploadedImages, setUploadedImages] = useState([]);
 
@@ -66,19 +66,19 @@ const EditOfficeSpaceForm = () => {
 
   useEffect(() => {
     console.log("ID from params:", id);
-  
+
     const fetchOfficeData = () => {
       OfficeStore.getState().fetchOffice(id)
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("Office data:", data);
-          setFormData(data);
-        })
-        .catch((error) => {
-          console.error("Error fetching office data:", error);
-        });
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("Office data:", data);
+            setFormData(data);
+          })
+          .catch((error) => {
+            console.error("Error fetching office data:", error);
+          });
     };
-  
+
     if (id) {
       fetchOfficeData();
     }
@@ -113,18 +113,18 @@ const EditOfficeSpaceForm = () => {
     console.log('Form data:', formData);
     event.preventDefault();
     OfficeStore.getState().updateOffice(formData)
-    .then((response) => response.json())
-    .then((data) => {
-      console.log('Office space updated:', data);
-      navigate("/offices");
-    })
-    .catch((error) => {})
+        .then((response) => response.json())
+        .then((data) => {
+          console.log('Office space updated:', data);
+          navigate("/offices");
+        })
+        .catch((error) => {})
   };
 
   const cancelHandler = () => {
     navigate("/offices");
   };
-  
+
   return (
       <div>
         <Navbar />
@@ -168,53 +168,53 @@ const EditOfficeSpaceForm = () => {
                 </Typography>
               </Stack>
               <Stack direction="column" spacing={3} marginY={3}>
-              <ImageList variant="masonry" cols={3} gap={10}>
+                <ImageList variant="masonry" cols={3} gap={10}>
                   {formData.photos.map((imageUrl, index) => {
                     return (
+                        <ImageListItem key={index}>
+                          <img
+                              src={imageUrl}
+                              alt={`Expanded Image ${index}`}
+                              style={{ width: "100%", height: "100%" }}
+                          />
+                          <IconButton
+                              style={{
+                                position: "absolute",
+                                top: "5px",
+                                right: "5px",
+                                color: "white",
+                              }}
+                              onClick={() => handleImageDelete(index)}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </ImageListItem>
+                    );
+                  })}
+                  {uploadedImages.map((imageUrl, index) => (
                       <ImageListItem key={index}>
                         <img
-                          src={imageUrl}
-                          alt={`Expanded Image ${index}`}
-                          style={{ width: "100%", height: "100%" }}
+                            src={imageUrl}
+                            alt={`Uploaded Image ${index}`}
+                            style={{ width: "100%", height: "100%" }}
                         />
                         <IconButton
-                          style={{
-                            position: "absolute",
-                            top: "5px",
-                            right: "5px",
-                            color: "white",
-                          }}
-                          onClick={() => handleImageDelete(index)}
+                            style={{
+                              position: "absolute",
+                              top: "5px",
+                              right: "5px",
+                              color: "white",
+                            }}
+                            onClick={() => handleImageDelete(index)}
                         >
                           <DeleteIcon />
                         </IconButton>
                       </ImageListItem>
-                    );
-                  })}
-                  {uploadedImages.map((imageUrl, index) => (
-                    <ImageListItem key={index}>
-                      <img
-                        src={imageUrl}
-                        alt={`Uploaded Image ${index}`}
-                        style={{ width: "100%", height: "100%" }}
-                      />
-                      <IconButton
-                        style={{
-                          position: "absolute",
-                          top: "5px",
-                          right: "5px",
-                          color: "white",
-                        }}
-                        onClick={() => handleImageDelete(index)}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                    </ImageListItem>
                   ))}
-              </ImageList>
+                </ImageList>
 
               </Stack>
-              
+
               <Stack direction={{ xs: "column", md: "row" }} spacing={3}>
                 <Stack spacing={3} flexGrow={4} width={1000}>
                   <TextField
@@ -292,7 +292,7 @@ const EditOfficeSpaceForm = () => {
                   ))}
                 </Select>
               </FormControl>
-              
+
             </form>
           </Box>
           <Stack
@@ -301,7 +301,7 @@ const EditOfficeSpaceForm = () => {
               marginTop={2}
               sx={{ paddingLeft: "1.25%", paddingRight: "1.25%" }}
           >
-        
+
             <Button variant="outlined" color="error" onClick={cancelHandler}>
               Cancel
             </Button>
@@ -315,4 +315,3 @@ const EditOfficeSpaceForm = () => {
 };
 
 export default EditOfficeSpaceForm;
-
