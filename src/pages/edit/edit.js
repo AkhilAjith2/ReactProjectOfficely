@@ -122,7 +122,7 @@ const EditOfficeSpaceForm = () => {
                   label="Title"
                   placeholder="Title"
                   value={formData.name}
-                  onChange={(e) => handleInputChange("title", e.target.value)}
+                  onChange={(e) => handleInputChange("name", e.target.value)}
                   fullWidth
                   margin="normal"
               />
@@ -198,7 +198,7 @@ const EditOfficeSpaceForm = () => {
                       placeholder="Price"
                       type="number"
                       value={formData.pricePerDay}
-                      onChange={(e) => handleInputChange("price", e.target.value)}
+                      onChange={(e) => handleInputChange("pricePerDay", e.target.value)}
                       fullWidth
                       margin="normal"
                   />
@@ -214,7 +214,7 @@ const EditOfficeSpaceForm = () => {
                       label="Features"
                       placeholder="Features"
                       value={formatOfficeType(formData.officeType)}
-                      onChange={(e) => handleInputChange("features", e.target.value)}
+                      onChange={(e) => handleInputChange("officeType", e.target.value)}
                       fullWidth
                       margin="normal"
                   />

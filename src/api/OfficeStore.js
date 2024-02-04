@@ -22,21 +22,31 @@ const OfficeStore = create((set) => ({
           'Authorization': `Bearer ${LoginStore.getState().jwttoken}`
       }}),
   addOffice:
-      async (office) => fetch(`${url}/offices`, {
+      async (office) => 
+      {
+        office = { ...office, availableFrom: formatDateTime(office.availableFrom) }
+        office = { ...office, availableTo: formatDateTime(office.availableTo) }
+        fetch(`${url}/offices`, {
         method: 'POST',
         headers: {
           'Accept': '*/*', 
           'Authorization': `Bearer ${LoginStore.getState().jwttoken}`},
         body: JSON.stringify({ office })
-      }),
+      })
+    },
   updateOffice:
-      async (office) => fetch(`${url}/offices/${office.id}`, {
+      async (office) => 
+      {
+        office = { ...office, availableFrom: formatDateTime(office.availableFrom) }
+        office = { ...office, availableTo: formatDateTime(office.availableTo) }
+        return fetch(`${url}/offices/${office.id}`, {
         method: 'PUT',
         headers: {
           'Accept': '*/*', 
           'Authorization': `Bearer ${LoginStore.getState().jwttoken}`},
         body: JSON.stringify({ office })
-      }),
+        })
+      },
   deleteOffice:
       async (office) => fetch(`${url}/offices/${office.id}`, {
         method: 'DELETE',
@@ -46,4 +56,19 @@ const OfficeStore = create((set) => ({
       })
 }))
 
+const formatDateTime = (dateTime) =>
+{
+  const date = new Date(dateTime);
+        
+  const options = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+  };
+  return new Intl.DateTimeFormat('en-US', options).format(date);
+}
 export default OfficeStore;
