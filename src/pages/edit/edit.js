@@ -16,7 +16,31 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Navbar from '../../components/navbar/Navbar';
 import OfficeStore from "../../api/OfficeStore";
 import { formatOfficeType } from '../../components/searchItem/SearchItem';
+import InputLabel from "@mui/material/InputLabel";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Chip from "@mui/material/Chip";
 
+const officeTypes = ["CONFERENCE_ROOM", "COWORKING_SPACE", "DESK", "OFFICE"];
+const amenitiesOptions = [
+  "WIFI",
+  "COFFEE",
+  "TEA",
+  "PROJECTOR",
+  "WHITEBOARD",
+  "PRINTER",
+  "SCANNER",
+  "FAX",
+  "PHONE",
+  "KITCHEN",
+  "PARKING",
+  "ACCESSIBLE",
+  "SECURITY",
+  "LOCKERS",
+  "PETS_ALLOWED",
+  "SMOKING_AREA",
+];
 
 const EditOfficeSpaceForm = () => {
   const navigate = useNavigate(); 
@@ -33,7 +57,7 @@ const EditOfficeSpaceForm = () => {
     availableFrom: "2024-02-03T21:46:31.282Z",
     availableTo: "2024-02-03T21:46:31.282Z",
     amenities: [],
-    officeType: "CONFERENCE_ROOM",
+    officeType: "",
     rating: 0,
     officeArea: 0,
     mainPhoto: "",
@@ -122,7 +146,7 @@ const EditOfficeSpaceForm = () => {
                   label="Title"
                   placeholder="Title"
                   value={formData.name}
-                  onChange={(e) => handleInputChange("title", e.target.value)}
+                  onChange={(e) => handleInputChange("name", e.target.value)}
                   fullWidth
                   margin="normal"
               />
@@ -198,7 +222,7 @@ const EditOfficeSpaceForm = () => {
                       placeholder="Price"
                       type="number"
                       value={formData.pricePerDay}
-                      onChange={(e) => handleInputChange("price", e.target.value)}
+                      onChange={(e) => handleInputChange("pricePerDay", e.target.value)}
                       fullWidth
                       margin="normal"
                   />
@@ -210,14 +234,24 @@ const EditOfficeSpaceForm = () => {
                       fullWidth
                       margin="normal"
                   />
-                  <TextField
-                      label="Features"
-                      placeholder="Features"
-                      value={formatOfficeType(formData.officeType)}
-                      onChange={(e) => handleInputChange("features", e.target.value)}
-                      fullWidth
-                      margin="normal"
-                  />
+                  <FormControl fullWidth margin="normal">
+                    <InputLabel id="officeType-label">Office Type</InputLabel>
+                    <Select
+                        label="Office Type"
+                        placeholder="Office Type"
+                        labelId="officeType-label"
+                        id="officeType"
+                        value={formData.officeType}
+                        onChange={(e) => handleInputChange("officeType", e.target.value)}
+                        fullWidth
+                    >
+                      {officeTypes.map((type) => (
+                          <MenuItem key={type} value={type}>
+                            {type}
+                          </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
                 </Stack>
 
                 <TextField
@@ -231,6 +265,34 @@ const EditOfficeSpaceForm = () => {
                     margin="normal"
                 />
               </Stack>
+
+              <FormControl fullWidth margin="normal">
+                <InputLabel id="amenities-label">Amenities</InputLabel>
+                <Select
+                    label="Amenities"
+                    placeholder="Amenities"
+                    labelId="amenities-label"
+                    id="amenities"
+                    multiple
+                    value={formData.amenities}
+                    onChange={(e) => handleInputChange("amenities", e.target.value)}
+                    renderValue={(selected) => (
+                        <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+                          {selected.map((value) => (
+                              <Chip key={value} label={value} sx={{ margin: 0.5 }} />
+                          ))}
+                        </Box>
+                    )}
+                    fullWidth
+                >
+                  {amenitiesOptions.map((amenity) => (
+                      <MenuItem key={amenity} value={amenity}>
+                        {amenity}
+                      </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              
             </form>
           </Box>
           <Stack

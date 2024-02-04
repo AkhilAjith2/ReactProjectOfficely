@@ -3,7 +3,6 @@ import {Container, FormControl, InputLabel, MenuItem, Select} from '@mui/materia
 import SearchBar from './Search';
 import SearchItem from '../../components/searchItem/SearchItem';
 import Navbar from '../../components/navbar/Navbar';
-import Header from '../../components/header/Header';
 import OfficeStore from '../../api/OfficeStore';
 import LoginStore from '../../api/LoginStore';
 
@@ -14,7 +13,7 @@ const List = () => {
   const [sortOption, setSortOption] = useState('default'); 
 
   useEffect(() => {
-    OfficeStore.getState().fetchOffices(5, 0)
+    OfficeStore.getState().fetchOffices(20, 0)
       .then(response => response.json())
       .then(response => {
         console.log(response);
@@ -71,7 +70,6 @@ const List = () => {
       <div>
         <Navbar/>
         <Container>
-          <Header type="list" />
           <SearchBar onSearch={handleSearch} />
           <FormControl style={{ margin: '20px 0' }}>
             <InputLabel htmlFor="sort">Sort by:</InputLabel>
