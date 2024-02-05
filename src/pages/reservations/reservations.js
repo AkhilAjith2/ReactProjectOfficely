@@ -71,11 +71,11 @@ const ReservationsTable = () => {
   return (
     <div>
       <Navbar />
-      <Typography sx={{marginTop: "2%", paddingLeft: "1.5%"}}>
-            <h3>Reservations for Office Space</h3>
+      <Typography sx={{marginTop: "2%", marginLeft: "2.5%"}}>
+            <h2>Reservations for Office Space</h2>
       </Typography>
       <Box sx={{marginTop: "5%",marginLeft:"2.5%", width: "95%"}}>
-      <Table hoverRow >
+      <Table hoverRow size="lg" variant ="plain" >
           <thead>
             <tr>
               <th>User ID</th>

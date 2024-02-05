@@ -29,8 +29,9 @@ const LoginTitleContainer = styled.div`
   font-size: 24px;
   font-weight: bold;
   color: black;
-  margin-bottom: 16px;
+  margin-bottom: 100px;
   font-family: Dubai-Medium;
+  
 `;
 
 const LoginForm = styled.div`
@@ -39,6 +40,8 @@ const LoginForm = styled.div`
   align-items: center;
   justify-content: center;
   padding: 24px;
+  width: 400px;
+  height:120px;
 `;
 
 const LoginButton = styled(Button)`
