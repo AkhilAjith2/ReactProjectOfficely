@@ -10,18 +10,18 @@ import LoginStore from '../../api/LoginStore';
 const List = () => {
   const [officeSpaces, setOfficeSpaces] = useState(OfficeStore.getState().offices);
   const [filteredOfficeSpaces, setFilteredOfficeSpaces] = useState(OfficeStore.getState().offices);
-  const [sortOption, setSortOption] = useState('default');
+  const [sortOption, setSortOption] = useState('default'); 
 
   useEffect(() => {
-    OfficeStore.getState().fetchOffices(30, 0)
-        .then(response => response.json())
-        .then(response => {
-          console.log(response);
-          OfficeStore.getState().setOffices(response);
-          setOfficeSpaces(response);
-          setFilteredOfficeSpaces(response);
-        })
-        .catch(error => console.error(error));
+    OfficeStore.getState().fetchOffices(20, 0)
+      .then(response => response.json())
+      .then(response => {
+        console.log(response);
+        OfficeStore.getState().setOffices(response);
+        setOfficeSpaces(response);
+        setFilteredOfficeSpaces(response);
+      })
+      .catch(error => console.error(error));
   }, []);
 
   const handleSearch = (searchTerm) => {

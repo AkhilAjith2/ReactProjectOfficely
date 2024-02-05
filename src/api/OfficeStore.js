@@ -1,8 +1,6 @@
 import { create } from 'zustand'
 import LoginStore from './LoginStore';
-
-const url = 'https://officely.azurewebsites.net';
-//const url = 'http://localhost:8080';
+import { url } from './url';
 
 const OfficeStore = create((set) => ({
     offices: [],

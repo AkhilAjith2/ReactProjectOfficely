@@ -1555,20 +1555,6 @@
   dependencies:
     "@babel/runtime" "^7.23.9"
 
-"@mui/joy@^5.0.0-beta.25":
-  version "5.0.0-beta.25"
-  resolved "https://registry.npmjs.org/@mui/joy/-/joy-5.0.0-beta.25.tgz"
-  integrity sha512-7OF+np0h92GSVjwu1EyKRAjEsTJfP1F3RTIrtKH+XlzP/GYvZ68TiRen7sya0creQzGsc4NRJU3aEnvEX691Mg==
-  dependencies:
-    "@babel/runtime" "^7.23.9"
-    "@mui/base" "5.0.0-beta.34"
-    "@mui/core-downloads-tracker" "^5.15.7"
-    "@mui/system" "^5.15.7"
-    "@mui/types" "^7.2.13"
-    "@mui/utils" "^5.15.7"
-    clsx "^2.1.0"
-    prop-types "^15.8.1"
-
 "@mui/lab@^5.0.0-alpha.163":
   version "5.0.0-alpha.163"
   resolved "https://registry.npmjs.org/@mui/lab/-/lab-5.0.0-alpha.163.tgz"
@@ -1582,7 +1568,7 @@
     clsx "^2.1.0"
     prop-types "^15.8.1"
 
-"@mui/material@^5.0.0", "@mui/material@^5.15.7", "@mui/material@^5.4.1", "@mui/material@^5.8.6", "@mui/material@>=5.15.0":
+"@mui/material@^5.0.0", "@mui/material@^5.15.7", "@mui/material@^5.8.6", "@mui/material@>=5.15.0":
   version "5.15.7"
   resolved "https://registry.npmjs.org/@mui/material/-/material-5.15.7.tgz"
   integrity sha512-l6+AiKZH3iOJmZCnlpel8ghYQe9Lq0BEuKP8fGj3g5xz4arO9GydqYAtLPMvuHKtArj8lJGNuT2yHYxmejincA==
@@ -1619,7 +1605,7 @@
     csstype "^3.1.2"
     prop-types "^15.8.1"
 
-"@mui/system@^5.15.4", "@mui/system@^5.15.7", "@mui/system@^5.4.1", "@mui/system@^5.8.0":
+"@mui/system@^5.15.4", "@mui/system@^5.15.7", "@mui/system@^5.8.0":
   version "5.15.7"
   resolved "https://registry.npmjs.org/@mui/system/-/system-5.15.7.tgz"
   integrity sha512-9alZ4/dLxsTwUOdqakgzxiL5YW6ntqj0CfzWImgWnBMTZhgGcPsbYpBLniNkkk7/jptma4/bykWXHwju/ls/pg==
@@ -1647,17 +1633,6 @@
     "@types/prop-types" "^15.7.11"
     prop-types "^15.8.1"
     react-is "^18.2.0"
-
-"@mui/x-data-grid@^6.19.3":
-  version "6.19.3"
-  resolved "https://registry.npmjs.org/@mui/x-data-grid/-/x-data-grid-6.19.3.tgz"
-  integrity sha512-RHt+MhTgvpXTWY0MYvzSNLF8npo+mlmWuTO+qKRt42Zj634IlUYDwW5jjQ9fWZnIpWJLunw253KqHoAlSAOXaw==
-  dependencies:
-    "@babel/runtime" "^7.23.2"
-    "@mui/utils" "^5.14.16"
-    clsx "^2.0.0"
-    prop-types "^15.8.1"
-    reselect "^4.1.8"
 
 "@mui/x-date-pickers@^6.19.3":
   version "6.19.3"
@@ -3471,7 +3446,14 @@ cosmiconfig@^7.0.0:
     path-type "^4.0.0"
     yaml "^1.10.0"
 
-cross-spawn@^7.0.2, cross-spawn@^7.0.3:
+cross-env@^7.0.3:
+  version "7.0.3"
+  resolved "https://registry.npmjs.org/cross-env/-/cross-env-7.0.3.tgz"
+  integrity sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==
+  dependencies:
+    cross-spawn "^7.0.1"
+
+cross-spawn@^7.0.1, cross-spawn@^7.0.2, cross-spawn@^7.0.3:
   version "7.0.3"
   resolved "https://registry.npmjs.org/cross-spawn/-/cross-spawn-7.0.3.tgz"
   integrity sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==
@@ -7752,11 +7734,6 @@ requires-port@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/requires-port/-/requires-port-1.0.0.tgz"
   integrity sha1-kl0mAdOaxIXgkc8NpcbmlNw9yv8=
-
-reselect@^4.1.8:
-  version "4.1.8"
-  resolved "https://registry.npmjs.org/reselect/-/reselect-4.1.8.tgz"
-  integrity sha512-ab9EmR80F/zQTMNeneUr4cv+jSwPJgIlvEmVwLerwrWVbpLlBuls9XHzIeTFy4cegU2NHBp3va0LKOzU5qFEYQ==
 
 resolve-cwd@^3.0.0:
   version "3.0.0"

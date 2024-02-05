@@ -8,6 +8,7 @@ function SearchBar(props) {
         width: '50%',
         margin: 'auto',
         marginTop: '30px',
+        marginBottom: '30px',
     };
 
     const SearchButton = styled(Button)`

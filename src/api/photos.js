@@ -1,6 +1,7 @@
 import LoginStore from "./LoginStore";
+import { url as URL }  from './url';
 
-const url = 'https://officely.azurewebsites.net/offices';
+const url = `${URL}/offices`;
 const getUrl = (officeId) => `${url}/${officeId}/photos`;
 
 const uploadByUrl = async function(officeId, fileUrl, isMain)
@@ -13,10 +14,10 @@ const uploadByUrl = async function(officeId, fileUrl, isMain)
     uploadUrl += '/url';
 
     return fetch(uploadUrl, {
-        method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${LoginStore.getState().jwttoken}`},
-        body: JSON.stringify({ fileUrl })
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${LoginStore.getState().jwttoken}`},
+        body: JSON.stringify({ fileUrl }) 
     });
 }
 
@@ -32,9 +33,9 @@ const uploadFile = async function(officeId, file, isMain)
     }
 
     return fetch(uploadUrl, {
-        method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${LoginStore.getState().jwttoken}`},
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${LoginStore.getState().jwttoken}`},
         body: formData
     });
 }
@@ -47,8 +48,8 @@ const deletePhoto = async function(officeId, fileUrl)
             'Accept': '*/*',
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${LoginStore.getState().jwttoken}`},
-        body: JSON.stringify({ fileUrl })
-    });
+        body: JSON.stringify({ fileUrl })  
+        });
 }
 
 const uploadMainPhoto = (officeId, file) => uploadFile(officeId, file, true);

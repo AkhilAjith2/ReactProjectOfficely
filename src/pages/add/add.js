@@ -8,7 +8,7 @@ import {
   IconButton,
   Box,
   ImageList,
-  ImageListItem, Grid,
+  ImageListItem,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FlagIcon from '@mui/icons-material/Flag';
@@ -75,17 +75,17 @@ const AddOfficeSpaceForm = () => {
   const submitHandler = async (event) => {
     event.preventDefault();
     OfficeStore.getState().addOffice(formData)
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("Office data:", data);
-          uploadPhotos(data[0].id)
-              .finally(() => navigate("/offices"))
-              .catch((error) => {
-                console.error("Error adding office photos:", error)});
-        })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Office data:", data);
+        uploadPhotos(data[0].id)
+        .finally(() => navigate("/offices"))
         .catch((error) => {
-          console.error("Error adding office data:", error);
-        });
+          console.error("Error adding office photos:", error)});
+      })
+      .catch((error) => {
+        console.error("Error adding office data:", error);
+      });
   };
 
   const uploadPhotos = async (officeId) => {
@@ -117,7 +117,7 @@ const AddOfficeSpaceForm = () => {
       updatedImages.splice(index, 1);
       return updatedImages;
     });
-  };
+  }; 
 
   const handleMarkMainPhoto = (index) => {
     setMainIndex(index);
@@ -170,31 +170,42 @@ const AddOfficeSpaceForm = () => {
                 </Typography>
               </Stack>
 
-              <Grid container spacing={2} style={{ maxHeight: "600px", overflowY: 'auto',marginBottom: '40px' }}>
+              <ImageList variant="masonry" cols={3} gap={5}>
                 {uploadedImages.map((image, index) => (
-                    <Grid item key={index} xs={4} style={{marginBottom:'16px', breakInside: 'avoid', height: "250px" }}>
-                      <ImageListItem style = {{height: "250px" }}>
-                        <img
-                            src={URL.createObjectURL(image)}
-                            alt={`Uploaded Image ${index}`}
-                            style={{ width: "100%", height: "100%", objectFit: "contain", border: index === mainImageIndex ? '2px solid red' : 'none' }}
-                        />
-                        <IconButton
-                            style={{ position: "absolute", top: "5px", right: "40px", color: "orange" }}
-                            onClick={() => handleMarkMainPhoto(index)}
-                        >
-                          <FlagIcon />
-                        </IconButton>
-                        <IconButton
-                            style={{ position: "absolute", top: "5px", right: "5px", color: "red" }}
-                            onClick={() => handleImageDelete(index)}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                      </ImageListItem>
-                    </Grid>
+                    <ImageListItem key={index}>
+                      <img
+                          src={URL.createObjectURL(image)}
+                          alt={`Uploaded Image ${index}`}
+                          style={{width: "100%", height: "100%", 
+                          // TODO: nicer border for main image
+                          border: index == mainImageIndex ? '2px solid red' : 'none'}}
+                      />
+                      <IconButton
+                          style={{
+                            position: "absolute",
+                            top: "5px",
+                            right: "40px",
+                            color: "white",
+                          }}
+                          onClick={() => handleMarkMainPhoto(index)}
+                      >
+                        <FlagIcon/>
+                      </IconButton>
+
+                      <IconButton
+                          style={{
+                            position: "absolute",
+                            top: "5px",
+                            right: "5px",
+                            color: "white",
+                          }}
+                          onClick={() => handleImageDelete(index)}
+                      >
+                        <DeleteIcon/>
+                      </IconButton>
+                    </ImageListItem>
                 ))}
-              </Grid>
+              </ImageList>
 
               <Stack direction={{xs: "column", md: "row"}} spacing={3}>
                 <Stack spacing={3} flexGrow={4} width={1000}>

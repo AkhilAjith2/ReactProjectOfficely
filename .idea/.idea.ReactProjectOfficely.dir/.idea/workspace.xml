@@ -6,9 +6,20 @@
   <component name="ChangeListManager">
     <list default="true" id="f9343541-8a16-48f6-850d-282b75f62d36" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ReactProjectOfficely.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ReactProjectOfficely.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/add/add.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/add/add.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/OfficeStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/OfficeStore.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/featured/Featured.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/featured/featured.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/featuredProperties/FeaturedProperties.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/featuredProperties/featuredProperties.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/header/Header.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/header/header.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/mailList/MailList.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/mailList/mailList.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/propertyList/PropertyList.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/propertyList/propertyList.css" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/edit/edit.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/edit/edit.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/list/Search.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/list/Search.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/home/Home.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/home/home.css" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,7 +41,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "Merging integrating__list__component",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",

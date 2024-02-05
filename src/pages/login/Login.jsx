@@ -6,9 +6,8 @@ import LoginStore from '../../api/LoginStore';
 
 const LeftSideImage = styled.img`
   width: 100%;
-  height: 100%;
+  height: 100vh;
   object-fit: cover;
-
 `;
 
 const RightSideForm = styled.div`
@@ -135,10 +134,10 @@ const Login = () => {
 
   return (
     <Grid container component="main" sx={{ height: '100vh' }}>
-      <Grid item xs={false} sm={7}>
+      <Grid item xs={false} sm={6}>
         <LeftSideImage src="https://t3.ftcdn.net/jpg/05/79/48/52/360_F_579485255_hzHox0stuQmBx5QViwnQqQjk7RD2AJza.jpg" alt="Background" />
       </Grid>
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+      <Grid item xs={12} sm={6} component={Paper} elevation={6} square>
         <RightSideForm>
           <LoginContainer>
             <LoginTitleContainer>
@@ -152,7 +151,7 @@ const Login = () => {
                   required
                   fullWidth
                   id="email"
-                  label="Username"
+                  label="Email Address"
                   name="email"
                   autoComplete="email"
                   autoFocus

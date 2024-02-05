@@ -1,27 +1,29 @@
 import { create } from 'zustand'
 import LoginStore from './LoginStore';
-
-const url = 'https://officely.azurewebsites.net';
+import { url } from './url';
 
 const ReservationStore = create((set) => ({
     reservations: [],
-    setReservations:
+    setReservations: 
         (reservations) => set({ reservations }),
     fetchReservationsForOffice:
-        async (pageSize, pageNum, officeId) => fetch(`${url}/reservations?pageSize=${pageSize}&pageNum=${pageNum}&officeId=${officeId}`, {
+        (pageSize, pageNum, officeId) =>
+        {
+            console.log(LoginStore.getState().jwttoken)
+            return fetch(`${url}/reservations?pageSize=${pageSize}&pageNum=${pageNum}&officeId=${officeId}`, {
             method: 'GET',
             headers: {
                 'Accept': '*/*',
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${LoginStore.getState().jwttoken}`
-            }}),
+        }})},
     fetchReservation:
         async (reservationId) => fetch(`${url}/reservations/${reservationId}`, {
             method: 'GET',
             headers: {
-                'Accept': '*/*',
+                'Accept': '*/*', 
                 'Authorization': `Bearer ${LoginStore.getState().jwttoken}`
-            }}),
+        }}),
     updateReservation:
         async (reservation) => fetch(`${url}/reservations/${reservation.id}`, {
             method: 'PUT',
@@ -31,7 +33,7 @@ const ReservationStore = create((set) => ({
             body: JSON.stringify({ reservation})
         }),
     deleteReservation:
-        async (reservationId) => fetch(`${url}/reservations/${reservationId}`, {
+        async (office) => fetch(`${url}/offices/${office.id}`, {
             method: 'DELETE',
             headers: {
                 'Accept': '*/*', 

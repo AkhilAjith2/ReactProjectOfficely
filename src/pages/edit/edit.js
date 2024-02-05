@@ -9,7 +9,7 @@ import {
   IconButton,
   Box,
   ImageList,
-  ImageListItem, Grid,
+  ImageListItem,
 } from "@mui/material";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -17,7 +17,7 @@ import Navbar from '../../components/navbar/Navbar';
 import OfficeStore from "../../api/OfficeStore";
 import FlagIcon from '@mui/icons-material/Flag';
 import { formatOfficeType } from '../../components/searchItem/SearchItem';
-import {deletePhoto, uploadAdditionalPhoto, uploadMainPhoto} from '../../api/photos';
+import {deletePhoto, uploadAdditionalPhoto, uploadMainPhoto, uploadMainPhotoByUrl} from '../../api/photos';
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
@@ -72,30 +72,30 @@ const EditOfficeSpaceForm = () => {
 
   useEffect(() => {
     ReservationStore.getState().fetchReservationsForOffice(10, 0, id)
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("Reservations for office:", data);
-        })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Reservations for office:", data);
+    })
     console.log("ID from params:", id);
 
     const fetchOfficeData = () => {
       OfficeStore.getState().fetchOffice(id)
-          .then((response) => response.json())
-          .then((data) => {
-            console.log("Office data:", data);
-            setFormData(data);
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Office data:", data);
+          setFormData(data);
 
-            let downloaded = [];
-            for(let i = 0; i < data.photos.length; i++){
-              if(data.photos[i] === data.mainPhoto)
-                setMainIndex(i);
-              downloaded.push({url: data.photos[i], file: null});
-            }
-            setImages(downloaded);
-          })
-          .catch((error) => {
-            console.error("Error fetching office data:", error);
-          });
+          let downloaded = [];
+          for(let i = 0; i < data.photos.length; i++){
+            if(data.photos[i] === data.mainPhoto)
+              setMainIndex(i);
+            downloaded.push({url: data.photos[i], file: null});
+          }
+          setImages(downloaded);
+        })
+        .catch((error) => {
+          console.error("Error fetching office data:", error);
+        });
     };
 
     if (id) {
@@ -147,14 +147,14 @@ const EditOfficeSpaceForm = () => {
 
     event.preventDefault();
     OfficeStore.getState().updateOffice(formData)
-        .then((response) => response.json())
-        .then((data) => {
-          console.log('Office space updated:', data);
-          handlePhotos(data.id)
-              .then(() => navigate("/offices"))
-              .catch((error) => {console.error("Error adding office photos:", error)});
-        })
-        .catch((error) => {})
+    .then((response) => response.json())
+    .then((data) => {
+      console.log('Office space updated:', data);
+      handlePhotos(data.id)
+      .then(() => navigate("/offices"))
+      .catch((error) => {console.error("Error adding office photos:", error)});
+    })
+    .catch((error) => {})
   };
 
   const handlePhotos = async (officeId) => {
@@ -175,7 +175,7 @@ const EditOfficeSpaceForm = () => {
         {
           // update main photo
           await deletePhoto(officeId, image.url);
-          await uploadMainPhoto(officeId, image.url);
+          await uploadMainPhotoByUrl(officeId, image.url);
         }
       }
     }
@@ -236,32 +236,45 @@ const EditOfficeSpaceForm = () => {
                   Add Images
                 </Typography>
               </Stack>
-              
-              <Grid container spacing={2} style={{ maxHeight: "600px", overflowY: 'auto', marginBottom: '40px' }}>
-                {images.map((image, index) => (
-                    <Grid item key={index} xs={4} style={{ marginBottom: '16px', breakInside: 'avoid', height: "250px" }}>
-                      <ImageListItem style={{ height: "250px" }}>
-                        <img
-                            src={image.url}
-                            alt={`Uploaded Image ${index}`}
-                            style={{ width: "100%", height: "100%", objectFit: "contain", border: index === mainImageIndex ? '2px solid red' : 'none' }}
-                        />
-                        <IconButton
-                            style={{ position: "absolute", top: "5px", right: "40px", color: "orange" }}
-                            onClick={() => handleMarkMainPhoto(index)}
-                        >
-                          <FlagIcon />
-                        </IconButton>
-                        <IconButton
-                            style={{ position: "absolute", top: "5px", right: "5px", color: "red" }}
-                            onClick={() => handleImageDelete(index)}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                      </ImageListItem>
-                    </Grid>
-                ))}
-              </Grid>
+              <Stack direction="column" spacing={3} marginY={3}>
+              <ImageList variant="masonry" cols={3} gap={10}>
+                  {images.map((object, index) => {
+                    return (
+                        <ImageListItem key={index}>
+                          <img
+                              src={object.url}
+                              alt={`Expanded Image ${index}`}
+                              style={{ width: "100%", height: "100%",
+                              border: index == mainImageIndex ? '2px solid red' : 'none'}}
+                          />
+                          <IconButton
+                              style={{
+                                position: "absolute",
+                                top: "5px",
+                                right: "40px",
+                                color: "white",
+                              }}
+                              onClick={() => handleMarkMainPhoto(index)}
+                          >
+                            <FlagIcon/>
+                          </IconButton>
+                          <IconButton
+                              style={{
+                                position: "absolute",
+                                top: "5px",
+                                right: "5px",
+                                color: "white",
+                              }}
+                              onClick={() => handleImageDelete(index)}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </ImageListItem>
+                    );
+                  })}
+              </ImageList>
+
+              </Stack>
 
               <Stack direction={{ xs: "column", md: "row" }} spacing={3}>
                 <Stack spacing={3} flexGrow={4} width={1000}>
@@ -340,22 +353,23 @@ const EditOfficeSpaceForm = () => {
                   ))}
                 </Select>
               </FormControl>
-              <Stack
-                  direction="row"
-                  justifyContent="space-between"
-                  marginTop={2}
-                  sx={{ paddingLeft: "1.25%", paddingRight: "1.25%" }}
-              >
 
-                <Button variant="outlined" color="error" onClick={cancelHandler}>
-                  Cancel
-                </Button>
-                <Button type="submit" variant="contained" sx={{ color: "#fff", backgroundColor: "#000" }} onClick={submitHandler}>
-                  Submit
-                </Button>
-              </Stack>
             </form>
           </Box>
+          <Stack
+              direction="row"
+              justifyContent="space-between"
+              marginTop={2}
+              sx={{ paddingLeft: "1.25%", paddingRight: "1.25%" }}
+          >
+
+            <Button variant="outlined" color="error" onClick={cancelHandler}>
+              Cancel
+            </Button>
+            <Button type="submit" variant="contained" sx={{ color: "#fff", backgroundColor: "#000" }} onClick={submitHandler}>
+              Submit
+            </Button>
+          </Stack>
         </div>
       </div>
   );
