@@ -9,7 +9,7 @@ import {
   IconButton,
   Box,
   ImageList,
-  ImageListItem,
+  ImageListItem, Grid,
 } from "@mui/material";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -236,45 +236,32 @@ const EditOfficeSpaceForm = () => {
                   Add Images
                 </Typography>
               </Stack>
-              <Stack direction="column" spacing={3} marginY={3}>
-                <ImageList variant="masonry" cols={3} gap={10}>
-                  {images.map((object, index) => {
-                    return (
-                        <ImageListItem key={index}>
-                          <img
-                              src={object.url}
-                              alt={`Expanded Image ${index}`}
-                              style={{ width: "100%", height: "100%",
-                                border: index == mainImageIndex ? '2px solid red' : 'none'}}
-                          />
-                          <IconButton
-                              style={{
-                                position: "absolute",
-                                top: "5px",
-                                right: "40px",
-                                color: "white",
-                              }}
-                              onClick={() => handleMarkMainPhoto(index)}
-                          >
-                            <FlagIcon/>
-                          </IconButton>
-                          <IconButton
-                              style={{
-                                position: "absolute",
-                                top: "5px",
-                                right: "5px",
-                                color: "white",
-                              }}
-                              onClick={() => handleImageDelete(index)}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                        </ImageListItem>
-                    );
-                  })}
-                </ImageList>
-
-              </Stack>
+              
+              <Grid container spacing={2} style={{ maxHeight: "600px", overflowY: 'auto', marginBottom: '40px' }}>
+                {images.map((image, index) => (
+                    <Grid item key={index} xs={4} style={{ marginBottom: '16px', breakInside: 'avoid', height: "250px" }}>
+                      <ImageListItem style={{ height: "250px" }}>
+                        <img
+                            src={image.url}
+                            alt={`Uploaded Image ${index}`}
+                            style={{ width: "100%", height: "100%", objectFit: "contain", border: index === mainImageIndex ? '2px solid red' : 'none' }}
+                        />
+                        <IconButton
+                            style={{ position: "absolute", top: "5px", right: "40px", color: "orange" }}
+                            onClick={() => handleMarkMainPhoto(index)}
+                        >
+                          <FlagIcon />
+                        </IconButton>
+                        <IconButton
+                            style={{ position: "absolute", top: "5px", right: "5px", color: "red" }}
+                            onClick={() => handleImageDelete(index)}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </ImageListItem>
+                    </Grid>
+                ))}
+              </Grid>
 
               <Stack direction={{ xs: "column", md: "row" }} spacing={3}>
                 <Stack spacing={3} flexGrow={4} width={1000}>
@@ -353,23 +340,22 @@ const EditOfficeSpaceForm = () => {
                   ))}
                 </Select>
               </FormControl>
+              <Stack
+                  direction="row"
+                  justifyContent="space-between"
+                  marginTop={2}
+                  sx={{ paddingLeft: "1.25%", paddingRight: "1.25%" }}
+              >
 
+                <Button variant="outlined" color="error" onClick={cancelHandler}>
+                  Cancel
+                </Button>
+                <Button type="submit" variant="contained" sx={{ color: "#fff", backgroundColor: "#000" }} onClick={submitHandler}>
+                  Submit
+                </Button>
+              </Stack>
             </form>
           </Box>
-          <Stack
-              direction="row"
-              justifyContent="space-between"
-              marginTop={2}
-              sx={{ paddingLeft: "1.25%", paddingRight: "1.25%" }}
-          >
-
-            <Button variant="outlined" color="error" onClick={cancelHandler}>
-              Cancel
-            </Button>
-            <Button type="submit" variant="contained" sx={{ color: "#fff", backgroundColor: "#000" }} onClick={submitHandler}>
-              Submit
-            </Button>
-          </Stack>
         </div>
       </div>
   );

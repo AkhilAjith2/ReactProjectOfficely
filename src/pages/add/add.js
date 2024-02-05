@@ -170,43 +170,6 @@ const AddOfficeSpaceForm = () => {
                 </Typography>
               </Stack>
 
-              {/*<ImageList variant="masonry" cols={3} gap={5}>*/}
-              {/*  {uploadedImages.map((image, index) => (*/}
-              {/*      <ImageListItem key={index}>*/}
-              {/*        <img*/}
-              {/*            src={URL.createObjectURL(image)}*/}
-              {/*            alt={`Uploaded Image ${index}`}*/}
-              {/*            style={{width: "100%", height: "100%",*/}
-              {/*              // TODO: nicer border for main image*/}
-              {/*              border: index == mainImageIndex ? '2px solid red' : 'none'}}*/}
-              {/*        />*/}
-              {/*        <IconButton*/}
-              {/*            style={{*/}
-              {/*              position: "absolute",*/}
-              {/*              top: "5px",*/}
-              {/*              right: "40px",*/}
-              {/*              color: "white",*/}
-              {/*            }}*/}
-              {/*            onClick={() => handleMarkMainPhoto(index)}*/}
-              {/*        >*/}
-              {/*          <FlagIcon/>*/}
-              {/*        </IconButton>*/}
-              
-              {/*        <IconButton*/}
-              {/*            style={{*/}
-              {/*              position: "absolute",*/}
-              {/*              top: "5px",*/}
-              {/*              right: "5px",*/}
-              {/*              color: "white",*/}
-              {/*            }}*/}
-              {/*            onClick={() => handleImageDelete(index)}*/}
-              {/*        >*/}
-              {/*          <DeleteIcon/>*/}
-              {/*        </IconButton>*/}
-              {/*      </ImageListItem>*/}
-              {/*  ))}*/}
-              {/*</ImageList>*/}
-
               <Grid container spacing={2} style={{ maxHeight: "600px", overflowY: 'auto',marginBottom: '40px' }}>
                 {uploadedImages.map((image, index) => (
                     <Grid item key={index} xs={4} style={{marginBottom:'16px', breakInside: 'avoid', height: "250px" }}>
