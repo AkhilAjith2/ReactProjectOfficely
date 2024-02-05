@@ -13,7 +13,7 @@ const List = () => {
   const [sortOption, setSortOption] = useState('default');
 
   useEffect(() => {
-    OfficeStore.getState().fetchOffices(20, 0)
+    OfficeStore.getState().fetchOffices(30, 0)
         .then(response => response.json())
         .then(response => {
           console.log(response);

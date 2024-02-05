@@ -31,12 +31,12 @@ const ReservationStore = create((set) => ({
             body: JSON.stringify({ reservation})
         }),
     deleteReservation:
-        async (office) => fetch(`${url}/offices/${office.id}`, {
+        async (reservationId) => fetch(`${url}/reservations/${reservationId}`, {
             method: 'DELETE',
             headers: {
-                'Accept': '*/*',
+                'Accept': '*/*', 
                 'Authorization': `Bearer ${LoginStore.getState().jwttoken}`
-            }})
+        }})
 }))
 
 export default ReservationStore ;

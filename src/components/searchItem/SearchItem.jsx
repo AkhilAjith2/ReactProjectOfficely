@@ -37,6 +37,12 @@ const SearchItem = ({ space }) => {
         >
           Edit
         </button>
+        <button
+          className="siCheckButton"
+          onClick={() => navigate(`/reservations/${space.id}`)}
+        >
+          Reservations
+        </button>
         <div className="siDetailTexts">
           <span className="siPrice">{`$${space.pricePerDay}`}</span>
         </div>
