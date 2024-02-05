@@ -7,7 +7,7 @@ import OfficeStore from '../../api/OfficeStore';
 import LoginStore from '../../api/LoginStore';
 
 const List = () => {
-  const itemsPerPage = 10; // Set the number of items to display per page
+  const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [officeSpaces, setOfficeSpaces] = useState(OfficeStore.getState().offices);
