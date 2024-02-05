@@ -3,8 +3,8 @@
   padding: 10px;
   border-radius: 5px;
   display: flex;
-  justify-content: space-between;
-  gap: 20px;
+  justify-content: space-between; /* Add this line */
+  gap: 20px; /* Add this line */
   margin-bottom: 20px;
 }
 
@@ -60,10 +60,11 @@
 }
 
 .siDetails {
-  flex: 1;
+  width: 150px; /* Add this line */
   display: flex;
   flex-direction: column;
-  justify-content: space-between
+  justify-content: space-between;
+  gap: 20px;
 }
 
 .siRating{
@@ -80,6 +81,7 @@
  padding: 5px;
  font-weight: bold;
  border: none;
+ border-radius: 5px;
 }
 
 .siDetailTexts{

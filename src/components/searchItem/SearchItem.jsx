@@ -10,13 +10,25 @@ export const formatOfficeType = (officeType) => {
   return formattedOfficeType;
 };
 
-const SearchItem = ({ space }) => {
+
+
+const SearchItem = ({ space,onUpdate }) => {
   const navigate = useNavigate();
 
-  const handleDeleteClick = (office) => {
-    OfficeStore.getState().deleteOffice(office);
+  const handleDeleteClick = async (office) => {
+    try {
+      console.log("Delete Clicked");
+      await OfficeStore.getState().deleteOffice(office);
+
+      // Call the onUpdate function from props to update the office list
+      onUpdate();
+    } catch (error) {
+      console.error("Error deleting office:", error);
+    }
   };
 
+
+  
   
   return (
     <div className="searchItem">
@@ -37,7 +49,7 @@ const SearchItem = ({ space }) => {
         <span className="siPrice">{`$${space.pricePerDay}`}</span>
       </div>
       <div className="siDetails">
-        <DeleteIcon onClick={() => handleDeleteClick(space)}/>
+        <DeleteIcon onClick={() => handleDeleteClick(space)} style={{ marginLeft: '60%' }}/>  
         <button
           className="siCheckButton"
           onClick={() => navigate(`/offices/${space.id}`)}

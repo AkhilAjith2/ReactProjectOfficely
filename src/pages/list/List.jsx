@@ -30,6 +30,19 @@ const List = () => {
         .catch(error => console.error(error));
   }, []);
 
+  const handleOfficeUpdate = async () => {
+    try {
+      const response = await OfficeStore.getState().fetchOffices(1000, 0);
+      const data = await response.json();
+      
+      OfficeStore.getState().setOffices(data);
+      setOfficeSpaces(data);
+      setFilteredOfficeSpaces(data);
+    } catch (error) {
+      console.error("Error updating offices:", error);
+    }
+  };
+
   useEffect(() => {
     const start = (currentPage - 1) * itemsPerPage;
     const end = start + itemsPerPage;
@@ -101,7 +114,7 @@ const List = () => {
               <div className="listWrapper">
                 <div className="listResult">
                   {filteredOfficeSpaces.map(space => (
-                      <SearchItem key={space.id} space={space}/>
+                      <SearchItem key={space.id} space={space} onUpdate={handleOfficeUpdate}/>
                   ))}
                 </div>
                 <div
