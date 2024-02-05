@@ -2,6 +2,13 @@ import React, { useState,useEffect} from "react";
 import { useParams } from 'react-router-dom';
 import { useNavigate } from "react-router-dom"; // Import useNavigate from React Router
 import { DataGrid } from '@mui/x-data-grid';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 import {
   TextField,
   Button,
@@ -16,20 +23,12 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Navbar from '../../components/navbar/Navbar';
 import OfficeStore from "../../api/OfficeStore";
-import { formatOfficeType } from '../../components/searchItem/SearchItem';
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Chip from "@mui/material/Chip";
 import ReservationStore from "../../api/ReservationStore";
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 const officeTypes = ["CONFERENCE_ROOM", "COWORKING_SPACE", "DESK", "OFFICE"];
 const amenitiesOptions = [
   "WIFI",
@@ -54,7 +53,6 @@ const EditOfficeSpaceForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [uploadedImages, setUploadedImages] = useState([]);
-  const [reservations, setReservations] = useState([]);
 
   const [formData, setFormData] = useState({
     id: 0,
@@ -93,105 +91,59 @@ const EditOfficeSpaceForm = () => {
     }
   }, [id]);
 
-  useEffect(() => {
-    ReservationStore.getState().fetchReservationsForOffice(20, 0, id)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Reservations:', data); 
-        setReservations(data);
-      })
-      .catch((error) => console.error('Error fetching reservations:', error));
-  }, []);
+  // useEffect(() => {
+  //   ReservationStore.getState().fetchReservationsForOffice(20, 0, id)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       console.log('Reservations:', data); 
+  //       setReservations(data);
+  //     })
+  //     .catch((error) => console.error('Error fetching reservations:', error));
+  // }, []);
 
-  const onEditStartDate = (id, newStartDate) => {
-    // Implement logic to update start date for the reservation with the given id
-  };
+
+  // const renderReservations = () => {
+  //   return (
+  //     <div>
+  //       <Typography variant="h5" sx={{ marginBottom: 2 }}>
+  //         Reservations
+  //       </Typography>
+  //       <TableContainer component={Paper}>
+  //         <Table>
+  //           <TableHead>
+  //             <TableRow>
+  //               <TableCell>User ID</TableCell>
+  //               <TableCell>Start Date</TableCell>
+  //               <TableCell>End Date</TableCell>
+  //               {/* Add more table headers if needed */}
+  //             </TableRow>
+  //           </TableHead>
+  //           <TableBody>
+  //             {reservations.map((reservation) => (
+  //               <TableRow key={reservation.id}>
+  //                 <TableCell>{reservation.userId}</TableCell>
+  //                 <TableCell>{formatDate(reservation.startDateTime)}</TableCell>
+  //                 <TableCell>{formatDate(reservation.endDateTime)}</TableCell>
+  //                 {/* Add more table cells if needed */}
+  //               </TableRow>
+  //             ))}
+  //           </TableBody>
+  //         </Table>
+  //       </TableContainer>
+  //     </div>
+  //   );
+  // };
   
-  const onEditEndDate = (id, newEndDate) => {
-    // Implement logic to update end date for the reservation with the given id
-  };
-  
-  const onDelete = (id) => {
-    // Implement logic to delete the reservation with the given id
-  };
-  
-
-
-  const columns = [
-    { field: 'userId', headerName: 'User ID', flex: 1 },
-    {
-      field: 'startDateTime',
-      headerName: 'Edit Start Date',
-      flex: 1,
-      renderCell: (params) => (
-        <input
-          type="date"
-          value={formatDate(params.value)}
-          onChange={(e) => onEditStartDate(params.id, e.target.value)}
-        />
-      ),
-    },
-    {
-      field: 'endDateTime',
-      headerName: 'Edit End Date',
-      flex: 1,
-      renderCell: (params) => (
-        <input
-          type="date"
-          value={formatDate(params.value)}
-          onChange={(e) => onEditEndDate(params.id, e.target.value)}
-        />
-      ),
-    },
-    {
-      field: 'actions',
-      headerName: 'Actions',
-      flex: 1,
-      renderCell: (params) => (
-        <Button onClick={() => onDelete(params.id)}>Delete</Button>
-      ),
-    },
-  ];
-
-  const rows = reservations.map((reservation) => ({
-    id: reservation.id,
-    userId: reservation.userId,
-    startDateTime: reservation.startDateTime,
-    endDateTime: reservation.endDateTime,
-  }));
-  
-
-  const renderReservations = () => {
-    return (
-      <div>
-        <Typography  sx={{marginTop: "2%", paddingLeft: "1.5%"}}>
-          <h3>Reservations</h3>
-        </Typography>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          pageSize={5}
-          checkboxSelection
-          disableSelectionOnClick
-          sx={{marginTop: "2%", paddingLeft: "1.5%"}}
-
-        />
-    </div>
-        
-    
-    );
-  };
-  
-  const formatDate = (dateTimeString) => {
-    try {
-      // Extracting year, month, and day from the date-time string
-      const [datePart] = dateTimeString.split('T');
-      return datePart;
-    } catch (error) {
-      console.error(`Error parsing date: ${error.message}`);
-      return 'Invalid Date';
-    }
-  };
+  // const formatDate = (dateTimeString) => {
+  //   try {
+  //     // Extracting year, month, and day from the date-time string
+  //     const [datePart] = dateTimeString.split('T');
+  //     return datePart;
+  //   } catch (error) {
+  //     console.error(`Error parsing date: ${error.message}`);
+  //     return 'Invalid Date';
+  //   }
+  // };
 
   const handleInputChange = (field, value) => {
     setFormData((prevData) => ({
@@ -236,7 +188,6 @@ const EditOfficeSpaceForm = () => {
   return (
       <div>
         <Navbar />
-        {renderReservations()}
         <div className="office_space_form">
           <Typography sx={{marginTop: "2%", paddingLeft: "1.5%"}}>
             <h3>Edit and View the Office Space Listing</h3>

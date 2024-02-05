@@ -44,6 +44,7 @@ const deletePhoto = async function(officeId, fileUrl)
     return fetch(getUrl(officeId), {
         method: 'DELETE',
         headers: {
+            'Accept': '*/*',
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${LoginStore.getState().jwttoken}`},
         body: JSON.stringify({ fileUrl })  

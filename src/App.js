@@ -7,7 +7,7 @@ import List from "./pages/list/List";
 import Login from "./pages/login/Login";
 import AddOfficeSpaceForm from "./pages/add/add";
 import EditOfficeSpaceForm from "./pages/edit/edit";
-import Reservations from "./pages/reservations/reservations";
+import ReservationsTable from "./pages/reservations/reservations"
 function App() {
   return (
     <BrowserRouter>
@@ -16,7 +16,7 @@ function App() {
         <Route path="/offices" element={<List/>}/>
         <Route path="/offices/:id" element={<EditOfficeSpaceForm/>}/>
         <Route path="/add" element={<AddOfficeSpaceForm/>}/>
-        <Route path="/reservations/:id" element={<Reservations/>}/>
+        <Route path="/reservations/:id" element={<ReservationsTable/>}/>
       </Routes>
     </BrowserRouter>
   );

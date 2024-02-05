@@ -30,8 +30,6 @@ const OfficeStore = create((set) => ({
         office = { ...office, ...newData };
         office = { ...office, pricePerDay: parseFloat(office.pricePerDay) };
         console.log(office);
-
-
         return fetch(`${url}/offices`, {
             method: 'POST',
             headers: {
@@ -39,10 +37,9 @@ const OfficeStore = create((set) => ({
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${LoginStore.getState().jwttoken}`,
             },
-            body: JSON.stringify([office]), // Wrap the office object in an array
+            body: JSON.stringify([office]),
         });
     },
-
     updateOffice:
         (office) =>
         {
