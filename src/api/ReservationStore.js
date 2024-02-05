@@ -14,6 +14,15 @@ const ReservationStore = create((set) => ({
                 'Accept': '*/*', 
                 'Authorization': `Bearer ${LoginStore.getState().jwttoken}`
         }}),
+    fetchReservationsForOffice:
+        async (pageSize, pageNum, officeId) => fetch(`${url}/reservations?pageSize=${pageSize}&pageNum=${pageNum}&officeId=${officeId}`, {
+          method: 'GET',
+          headers: {
+            'Accept': '*/*',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${LoginStore.getState().jwttoken}`
+          }
+        }),
     fetchReservation:
         async (reservationId) => fetch(`${url}/reservations/${reservationId}`, {
             method: 'GET',
