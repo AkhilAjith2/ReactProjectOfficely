@@ -1,7 +1,8 @@
 import React from "react";
 import "./searchItem.css";
 import { useNavigate } from 'react-router-dom';
-
+import DeleteIcon from '@mui/icons-material/Delete';
+import OfficeStore from "../../api/OfficeStore";
 export const formatOfficeType = (officeType) => {
   const lowerCaseOfficeType = officeType.toLowerCase();
   const words = lowerCaseOfficeType.split('_');
@@ -11,6 +12,10 @@ export const formatOfficeType = (officeType) => {
 
 const SearchItem = ({ space }) => {
   const navigate = useNavigate();
+
+  const handleDeleteClick = (office) => {
+    OfficeStore.getState().deleteOffice(office);
+  };
 
   
   return (
@@ -29,8 +34,10 @@ const SearchItem = ({ space }) => {
         <h1 className="siTitle">{space.name}</h1>
         <span className="siSubtitle">{space.address}</span>
         <span className="siFeatures">{formatOfficeType(space.officeType)}</span>
+        <span className="siPrice">{`$${space.pricePerDay}`}</span>
       </div>
       <div className="siDetails">
+        <DeleteIcon onClick={() => handleDeleteClick(space)}/>
         <button
           className="siCheckButton"
           onClick={() => navigate(`/offices/${space.id}`)}
@@ -43,16 +50,10 @@ const SearchItem = ({ space }) => {
         >
           Reservations
         </button>
-        <div className="siDetailTexts">
-          <span className="siPrice">{`$${space.pricePerDay}`}</span>
-        </div>
       </div>
     </div>
   );
 };
 
 export default SearchItem;
-
-
-
 
