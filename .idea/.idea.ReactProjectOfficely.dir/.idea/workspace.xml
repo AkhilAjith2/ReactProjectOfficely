@@ -6,9 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="f9343541-8a16-48f6-850d-282b75f62d36" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ReactProjectOfficely.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ReactProjectOfficely.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/add/add.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/add/add.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/edit/edit.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/edit/edit.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/list/Search.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/list/Search.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/list/List.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/list/List.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
