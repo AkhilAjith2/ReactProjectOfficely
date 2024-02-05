@@ -8,12 +8,15 @@ import {
   IconButton,
   Box,
   ImageList,
-  ImageListItem,
+  ImageListItem, Grid,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import FlagIcon from '@mui/icons-material/Flag';
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import Navbar from "../../components/navbar/Navbar";
 import OfficeStore from "../../api/OfficeStore";
+import { set } from "date-fns";
+import {uploadAdditionalPhoto, uploadMainPhoto} from '../../api/photos';
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -60,21 +63,13 @@ const AddOfficeSpaceForm = () => {
   });
 
   const [uploadedImages, setUploadedImages] = useState([]);
+  const [mainImageIndex, setMainIndex] = useState(0);
+
   const handleInputChange = (field, value) => {
     setFormData((prevData) => ({
       ...prevData,
       [field]: value,
     }));
-  };
-
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    setFormData((prevData) => ({
-      ...prevData,
-      image: file,
-    }));
-    setUploadedImages((prevImages) => [...prevImages, URL.createObjectURL(file)]);
-    console.log("Image uploaded:", file);
   };
 
   const submitHandler = async (event) => {
@@ -83,20 +78,50 @@ const AddOfficeSpaceForm = () => {
         .then((response) => response.json())
         .then((data) => {
           console.log("Office data:", data);
-          navigate("/offices");
+          uploadPhotos(data[0].id)
+              .finally(() => navigate("/offices"))
+              .catch((error) => {
+                console.error("Error adding office photos:", error)});
         })
         .catch((error) => {
           console.error("Error adding office data:", error);
         });
   };
 
+  const uploadPhotos = async (officeId) => {
+    for(let i = 0; i < uploadedImages.length; i++)
+    {
+      const image = uploadedImages[i];
+      if(mainImageIndex == i)
+        await uploadMainPhoto(officeId, image);
+      else
+        await uploadAdditionalPhoto(officeId, image);
+    }
+  };
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    const currentFiles = [...uploadedImages];
+    currentFiles.push(file);
+    setUploadedImages(currentFiles);
+  };
+
   const handleImageDelete = (index) => {
+    if(index == mainImageIndex)
+      setMainIndex(0);
+    else if(index < mainImageIndex)
+      setMainIndex(mainImageIndex-1);
+
     setUploadedImages((prevImages) => {
       const updatedImages = [...prevImages];
       updatedImages.splice(index, 1);
       return updatedImages;
     });
   };
+
+  const handleMarkMainPhoto = (index) => {
+    setMainIndex(index);
+  }
 
   const cancelHandler = () => {
     navigate("/offices");
@@ -145,28 +170,68 @@ const AddOfficeSpaceForm = () => {
                 </Typography>
               </Stack>
 
-              <ImageList variant="masonry" cols={3} gap={5}>
-                {uploadedImages.map((imageUrl, index) => (
-                    <ImageListItem key={index}>
-                      <img
-                          src={imageUrl}
-                          alt={`Uploaded Image ${index}`}
-                          style={{width: "100%", height: "100%"}}
-                      />
-                      <IconButton
-                          style={{
-                            position: "absolute",
-                            top: "5px",
-                            right: "5px",
-                            color: "white",
-                          }}
-                          onClick={() => handleImageDelete(index)}
-                      >
-                        <DeleteIcon/>
-                      </IconButton>
-                    </ImageListItem>
+              {/*<ImageList variant="masonry" cols={3} gap={5}>*/}
+              {/*  {uploadedImages.map((image, index) => (*/}
+              {/*      <ImageListItem key={index}>*/}
+              {/*        <img*/}
+              {/*            src={URL.createObjectURL(image)}*/}
+              {/*            alt={`Uploaded Image ${index}`}*/}
+              {/*            style={{width: "100%", height: "100%",*/}
+              {/*              // TODO: nicer border for main image*/}
+              {/*              border: index == mainImageIndex ? '2px solid red' : 'none'}}*/}
+              {/*        />*/}
+              {/*        <IconButton*/}
+              {/*            style={{*/}
+              {/*              position: "absolute",*/}
+              {/*              top: "5px",*/}
+              {/*              right: "40px",*/}
+              {/*              color: "white",*/}
+              {/*            }}*/}
+              {/*            onClick={() => handleMarkMainPhoto(index)}*/}
+              {/*        >*/}
+              {/*          <FlagIcon/>*/}
+              {/*        </IconButton>*/}
+              
+              {/*        <IconButton*/}
+              {/*            style={{*/}
+              {/*              position: "absolute",*/}
+              {/*              top: "5px",*/}
+              {/*              right: "5px",*/}
+              {/*              color: "white",*/}
+              {/*            }}*/}
+              {/*            onClick={() => handleImageDelete(index)}*/}
+              {/*        >*/}
+              {/*          <DeleteIcon/>*/}
+              {/*        </IconButton>*/}
+              {/*      </ImageListItem>*/}
+              {/*  ))}*/}
+              {/*</ImageList>*/}
+
+              <Grid container spacing={2} style={{ maxHeight: "600px", overflowY: 'auto',marginBottom: '40px' }}>
+                {uploadedImages.map((image, index) => (
+                    <Grid item key={index} xs={4} style={{marginBottom:'16px', breakInside: 'avoid', height: "250px" }}>
+                      <ImageListItem style = {{height: "250px" }}>
+                        <img
+                            src={URL.createObjectURL(image)}
+                            alt={`Uploaded Image ${index}`}
+                            style={{ width: "100%", height: "100%", objectFit: "contain", border: index === mainImageIndex ? '2px solid red' : 'none' }}
+                        />
+                        <IconButton
+                            style={{ position: "absolute", top: "5px", right: "40px", color: "orange" }}
+                            onClick={() => handleMarkMainPhoto(index)}
+                        >
+                          <FlagIcon />
+                        </IconButton>
+                        <IconButton
+                            style={{ position: "absolute", top: "5px", right: "5px", color: "red" }}
+                            onClick={() => handleImageDelete(index)}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </ImageListItem>
+                    </Grid>
                 ))}
-              </ImageList>
+              </Grid>
 
               <Stack direction={{xs: "column", md: "row"}} spacing={3}>
                 <Stack spacing={3} flexGrow={4} width={1000}>

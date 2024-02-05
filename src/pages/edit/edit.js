@@ -15,12 +15,15 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Navbar from '../../components/navbar/Navbar';
 import OfficeStore from "../../api/OfficeStore";
+import FlagIcon from '@mui/icons-material/Flag';
 import { formatOfficeType } from '../../components/searchItem/SearchItem';
+import {deletePhoto, uploadAdditionalPhoto, uploadMainPhoto} from '../../api/photos';
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Chip from "@mui/material/Chip";
+import ReservationStore from "../../api/ReservationStore";
 
 const officeTypes = ["CONFERENCE_ROOM", "COWORKING_SPACE", "DESK", "OFFICE"];
 const amenitiesOptions = [
@@ -45,7 +48,10 @@ const amenitiesOptions = [
 const EditOfficeSpaceForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [uploadedImages, setUploadedImages] = useState([]);
+
+  const [mainImageIndex, setMainIndex] = useState(0);
+  const [images, setImages] = useState([]);
+  const [imagesToRemove, setImagesToRemove] = useState([]);
 
   const [formData, setFormData] = useState({
     id: 0,
@@ -65,6 +71,11 @@ const EditOfficeSpaceForm = () => {
   });
 
   useEffect(() => {
+    ReservationStore.getState().fetchReservationsForOffice(10, 0, id)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Reservations for office:", data);
+        })
     console.log("ID from params:", id);
 
     const fetchOfficeData = () => {
@@ -73,6 +84,14 @@ const EditOfficeSpaceForm = () => {
           .then((data) => {
             console.log("Office data:", data);
             setFormData(data);
+
+            let downloaded = [];
+            for(let i = 0; i < data.photos.length; i++){
+              if(data.photos[i] === data.mainPhoto)
+                setMainIndex(i);
+              downloaded.push({url: data.photos[i], file: null});
+            }
+            setImages(downloaded);
           })
           .catch((error) => {
             console.error("Error fetching office data:", error);
@@ -94,15 +113,27 @@ const EditOfficeSpaceForm = () => {
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
-    setFormData((prevData) => ({
-      ...prevData,
-      image: file,
-    }));
-    console.log("Image uploaded:", file);
+    const currentFiles = [...images];
+    currentFiles.push({url: URL.createObjectURL(file), file:file});
+    setImages(currentFiles);
+    console.log('Uploaded images:', currentFiles);
   };
 
   const handleImageDelete = (index) => {
-    setUploadedImages((prevImages) => {
+    if(index == mainImageIndex)
+      setMainIndex(0);
+    else if(index < mainImageIndex)
+      setMainIndex(mainImageIndex-1);
+
+    if(!images[index].file)
+    {
+      const file = images[index];
+      const currentToBeDeleted = [...imagesToRemove];
+      currentToBeDeleted.push(file);
+      setImagesToRemove(currentToBeDeleted);
+    }
+
+    setImages((prevImages) => {
       const updatedImages = [...prevImages];
       updatedImages.splice(index, 1);
       return updatedImages;
@@ -111,15 +142,53 @@ const EditOfficeSpaceForm = () => {
 
   const submitHandler = async (event) => {
     console.log('Form data:', formData);
+    console.log('Uploaded images:', images);
+    console.log('Deleted images:', imagesToRemove);
+
     event.preventDefault();
     OfficeStore.getState().updateOffice(formData)
         .then((response) => response.json())
         .then((data) => {
           console.log('Office space updated:', data);
-          navigate("/offices");
+          handlePhotos(data.id)
+              .then(() => navigate("/offices"))
+              .catch((error) => {console.error("Error adding office photos:", error)});
         })
         .catch((error) => {})
   };
+
+  const handlePhotos = async (officeId) => {
+    console.log('Uploading photos for office:', images);
+    for(let i = 0; i < images.length; i++)
+    {
+      const image = images[i];
+      if(image.file)
+      {
+        if(mainImageIndex == i)
+          await uploadMainPhoto(officeId, image.file);
+        else
+          await uploadAdditionalPhoto(officeId, image.file);
+      }
+      else
+      {
+        if(mainImageIndex == i && image.url != formData.mainPhoto)
+        {
+          // update main photo
+          await deletePhoto(officeId, image.url);
+          await uploadMainPhoto(officeId, image.url);
+        }
+      }
+    }
+    for(let i = 0; i < imagesToRemove.length; i++)
+    {
+      const image = imagesToRemove[i];
+      await deletePhoto(officeId, image.url);
+    }
+  };
+
+  const handleMarkMainPhoto = (index) => {
+    setMainIndex(index);
+  }
 
   const cancelHandler = () => {
     navigate("/offices");
@@ -169,14 +238,26 @@ const EditOfficeSpaceForm = () => {
               </Stack>
               <Stack direction="column" spacing={3} marginY={3}>
                 <ImageList variant="masonry" cols={3} gap={10}>
-                  {formData.photos.map((imageUrl, index) => {
+                  {images.map((object, index) => {
                     return (
                         <ImageListItem key={index}>
                           <img
-                              src={imageUrl}
+                              src={object.url}
                               alt={`Expanded Image ${index}`}
-                              style={{ width: "100%", height: "100%" }}
+                              style={{ width: "100%", height: "100%",
+                                border: index == mainImageIndex ? '2px solid red' : 'none'}}
                           />
+                          <IconButton
+                              style={{
+                                position: "absolute",
+                                top: "5px",
+                                right: "40px",
+                                color: "white",
+                              }}
+                              onClick={() => handleMarkMainPhoto(index)}
+                          >
+                            <FlagIcon/>
+                          </IconButton>
                           <IconButton
                               style={{
                                 position: "absolute",
@@ -191,26 +272,6 @@ const EditOfficeSpaceForm = () => {
                         </ImageListItem>
                     );
                   })}
-                  {uploadedImages.map((imageUrl, index) => (
-                      <ImageListItem key={index}>
-                        <img
-                            src={imageUrl}
-                            alt={`Uploaded Image ${index}`}
-                            style={{ width: "100%", height: "100%" }}
-                        />
-                        <IconButton
-                            style={{
-                              position: "absolute",
-                              top: "5px",
-                              right: "5px",
-                              color: "white",
-                            }}
-                            onClick={() => handleImageDelete(index)}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                      </ImageListItem>
-                  ))}
                 </ImageList>
 
               </Stack>

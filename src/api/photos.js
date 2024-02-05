@@ -13,10 +13,10 @@ const uploadByUrl = async function(officeId, fileUrl, isMain)
     uploadUrl += '/url';
 
     return fetch(uploadUrl, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${LoginStore.getState().jwttoken}`},
-        body: JSON.stringify({ fileUrl }) 
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${LoginStore.getState().jwttoken}`},
+        body: JSON.stringify({ fileUrl })
     });
 }
 
@@ -32,9 +32,9 @@ const uploadFile = async function(officeId, file, isMain)
     }
 
     return fetch(uploadUrl, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${LoginStore.getState().jwttoken}`},
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${LoginStore.getState().jwttoken}`},
         body: formData
     });
 }
@@ -44,10 +44,11 @@ const deletePhoto = async function(officeId, fileUrl)
     return fetch(getUrl(officeId), {
         method: 'DELETE',
         headers: {
+            'Accept': '*/*',
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${LoginStore.getState().jwttoken}`},
-        body: JSON.stringify({ fileUrl })  
-        });
+        body: JSON.stringify({ fileUrl })
+    });
 }
 
 const uploadMainPhoto = (officeId, file) => uploadFile(officeId, file, true);

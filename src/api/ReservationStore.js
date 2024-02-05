@@ -5,22 +5,23 @@ const url = 'https://officely.azurewebsites.net';
 
 const ReservationStore = create((set) => ({
     reservations: [],
-    setReservations: 
+    setReservations:
         (reservations) => set({ reservations }),
-    fetchReservations:
-        async (pageSize, pageNum) => fetch(`${url}/reservations?pageSize=${pageSize}&pageNum=${pageNum}`, {
+    fetchReservationsForOffice:
+        async (pageSize, pageNum, officeId) => fetch(`${url}/reservations?pageSize=${pageSize}&pageNum=${pageNum}&officeId=${officeId}`, {
             method: 'GET',
             headers: {
-                'Accept': '*/*', 
+                'Accept': '*/*',
+                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${LoginStore.getState().jwttoken}`
-        }}),
+            }}),
     fetchReservation:
         async (reservationId) => fetch(`${url}/reservations/${reservationId}`, {
             method: 'GET',
             headers: {
-                'Accept': '*/*', 
+                'Accept': '*/*',
                 'Authorization': `Bearer ${LoginStore.getState().jwttoken}`
-        }}),
+            }}),
     updateReservation:
         async (reservation) => fetch(`${url}/reservations/${reservation.id}`, {
             method: 'PUT',
@@ -33,9 +34,9 @@ const ReservationStore = create((set) => ({
         async (office) => fetch(`${url}/offices/${office.id}`, {
             method: 'DELETE',
             headers: {
-                'Accept': '*/*', 
+                'Accept': '*/*',
                 'Authorization': `Bearer ${LoginStore.getState().jwttoken}`
-        }})
+            }})
 }))
 
 export default ReservationStore ;
