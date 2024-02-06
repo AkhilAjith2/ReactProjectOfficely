@@ -49,7 +49,7 @@ const SearchItem = ({ space,onUpdate }) => {
         <span className="siPrice">{`$${space.pricePerDay}`}</span>
       </div>
       <div className="siDetails">
-        <DeleteIcon onClick={() => handleDeleteClick(space)} style={{ marginLeft: '60%' }}/>  
+        <DeleteIcon onClick={() => handleDeleteClick(space)} style={{ marginLeft: '60%'}}/>  
         <button
           className="siCheckButton"
           onClick={() => navigate(`/offices/${space.id}`)}
