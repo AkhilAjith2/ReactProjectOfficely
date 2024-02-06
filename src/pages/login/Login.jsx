@@ -121,7 +121,7 @@ const Login = () => {
       .catch((error) => 
         {
           console.error('Invalid email or password');
-          setLoginError("Incorrect Email Address or Password Entered!")
+          setLoginError("Incorrect Username or Password Entered!")
         })
   }
 

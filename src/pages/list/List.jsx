@@ -107,7 +107,7 @@ const List = () => {
               <MenuItem value="default">Default</MenuItem>
               <MenuItem value="alphabetical">Alphabetical</MenuItem>
               <MenuItem value="price">Price</MenuItem>
-              <MenuItem value="features">Features</MenuItem>
+              <MenuItem value="features">Office Types</MenuItem>
             </Select>
           </FormControl>
           <div className="listContainer">
