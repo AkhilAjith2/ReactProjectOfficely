@@ -60,13 +60,13 @@
 }
 
 .siDetails {
-  margin-top: 20px;
+  margin-top: 10px;
   width: 150px; /* Add this line */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   gap: 1px;
-  margin-bottom: 20px
+  margin-bottom: 10px
 }
 
 .siRating{
