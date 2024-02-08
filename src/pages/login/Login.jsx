@@ -8,7 +8,6 @@ const LeftSideImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-
 `;
 
 const RightSideForm = styled.div`
@@ -66,21 +65,12 @@ const LoginButton = styled(Button)`
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [loginError,setLoginError] = useState('');
 
   const navigate = useNavigate();
 
   const validateEmail = () => {
-    // TODO: consider if want to use email or username to login
-
-    // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    // if (!emailRegex.test(email)) {
-    //   setEmailError('Invalid email address');
-    //   return false;
-    // }
-    // setEmailError('');
     return true;
   };
 
@@ -92,8 +82,7 @@ const Login = () => {
     setPasswordError('');
     return true;
   };
-
-
+  
   const handleEmailChange = (e) => {
     const value = e.target.value;
     setEmail(value);
@@ -109,7 +98,6 @@ const Login = () => {
   const isValid = () => validateEmail() && validatePassword();
 
   const fetchData = () =>{
-    // TODO: change to email or username and update .login() method
 
     LoginStore.getState()
       .login(email, password)
@@ -161,8 +149,6 @@ const Login = () => {
                   autoFocus
                   value={email}
                   onChange={handleEmailChange}
-                  error={!!emailError}
-                  helperText={emailError}
                 />
                 <TextField
                   margin="normal"

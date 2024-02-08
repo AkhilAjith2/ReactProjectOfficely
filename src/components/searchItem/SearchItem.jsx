@@ -19,8 +19,6 @@ const SearchItem = ({ space, onUpdate }) => {
     try {
       console.log("Delete Clicked");
       await OfficeStore.getState().deleteOffice(office);
-
-      // Call the onUpdate function from props to update the office list
       onUpdate();
     } catch (error) {
       console.error("Error deleting office:", error);

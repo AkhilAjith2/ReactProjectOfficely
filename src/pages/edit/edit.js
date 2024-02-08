@@ -1,6 +1,6 @@
 import React, { useState,useEffect} from "react";
 import { useParams } from 'react-router-dom';
-import { useNavigate } from "react-router-dom"; // Import useNavigate from React Router
+import { useNavigate } from "react-router-dom"; 
 import {
   TextField,
   Button,
@@ -8,7 +8,6 @@ import {
   Typography,
   IconButton,
   Box,
-  ImageList,
   ImageListItem, Grid,
 } from "@mui/material";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
@@ -16,7 +15,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Navbar from '../../components/navbar/Navbar';
 import OfficeStore from "../../api/OfficeStore";
 import FlagIcon from '@mui/icons-material/Flag';
-import { formatOfficeType } from '../../components/searchItem/SearchItem';
 import {deletePhoto, uploadAdditionalPhoto, uploadMainPhoto} from '../../api/photos';
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
@@ -120,7 +118,7 @@ const EditOfficeSpaceForm = () => {
   };
 
   const handleImageDelete = (index) => {
-    if(index == mainImageIndex)
+    if(index === mainImageIndex)
       setMainIndex(0);
     else if(index < mainImageIndex)
       setMainIndex(mainImageIndex-1);
@@ -164,16 +162,15 @@ const EditOfficeSpaceForm = () => {
       const image = images[i];
       if(image.file)
       {
-        if(mainImageIndex == i)
+        if(mainImageIndex === i)
           await uploadMainPhoto(officeId, image.file);
         else
           await uploadAdditionalPhoto(officeId, image.file);
       }
       else
       {
-        if(mainImageIndex == i && image.url != formData.mainPhoto)
+        if(mainImageIndex === i && image.url !== formData.mainPhoto)
         {
-          // update main photo
           await deletePhoto(officeId, image.url);
           await uploadMainPhoto(officeId, image.url);
         }
@@ -243,7 +240,7 @@ const EditOfficeSpaceForm = () => {
                       <ImageListItem style={{ height: "250px" }}>
                         <img
                             src={image.url}
-                            alt={`Uploaded Image ${index}`}
+                            alt={`Uploaded ${index}`}
                             style={{ width: "100%", height: "100%", objectFit: "contain", border: index === mainImageIndex ? '2px solid red' : 'none' }}
                         />
                         <IconButton

@@ -1,9 +1,7 @@
 import { create } from 'zustand'
-// import { officeSpaces } from './data';
 
 const url = 'https://officely.azurewebsites.net';
 
-// TODO: add fetch and save methods after update in the backend
 const OfficeStore = create((set) => ({
 	offices: [],
 	setOffices: 
@@ -17,14 +15,8 @@ const OfficeStore = create((set) => ({
               'Authorization': `Bearer ${LoginStore.getState().jwttoken}`
             }
           }),
-        //async (pageSize, pageNum) => console.log('fetching offices'),
-	// saveOffice: async (office) => fetch(`${url}/office`, {
-	// 	method: 'POST', 
-	// 	headers: {'Content-Type': 'application/json'},
-	// 	body: JSON.stringify({value: language})})
 }))
 
-// TODD: check if user is admin, probably it will be done server side 
 const LoginStore = create((set) => ({
 	jwttoken: "",
 	login: 

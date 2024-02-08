@@ -1,4 +1,3 @@
-// ReservationsTable.js
 import React, { useState, useEffect } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import { useParams } from 'react-router-dom';
@@ -10,26 +9,23 @@ import {
 import Table from '@mui/joy/Table';
 import ReservationStore from "../../api/ReservationStore";
 
-
 const ReservationsTable = () => {
   const [reservations, setReservations] = useState([]);
   const { id } = useParams();
 
   useEffect(() => {
-    // Fetch reservations data when the component mounts
     ReservationStore.getState()
-      .fetchReservationsForOffice(20, 0, id) // Assuming `id` is available
+      .fetchReservationsForOffice(20, 0, id)
       .then((response) => response.json())
       .then((data) => {
         console.log("Reservations:", data);
         setReservations(data);
       })
       .catch((error) => console.error("Error fetching reservations:", error));
-  }, []);
+  }, [id]);
 
   const formatDate = (dateTimeString) => {
     try {
-      // Extracting year, month, and day from the date-time string
       const [datePart] = dateTimeString.split("T");
       return datePart;
     } catch (error) {
@@ -52,11 +48,8 @@ const ReservationsTable = () => {
   const onDelete = async (reservationId) => {
     try {
       setReservations((prevReservations) => {
-        // Filter out the deleted reservation
         const updatedReservations = prevReservations.filter((reservation) => reservation.id !== reservationId);
-  
         console.log(`Updated Reservations: ${JSON.stringify(updatedReservations)}`);
-  
         return updatedReservations;
       });
   
@@ -84,8 +77,6 @@ const ReservationsTable = () => {
               <th>End Date</th>
               <th>End Time</th>
               <th>Actions</th>
-
-              {/* Add more table headers if needed */}
             </tr>
           </thead>
           <tbody>
@@ -101,7 +92,6 @@ const ReservationsTable = () => {
                         Delete
                     </Button>
                 </td>
-                {/* Add more table cells if needed */}
               </tr>
             ))}
           </tbody>

@@ -10,11 +10,11 @@ import LoginStore from '../../api/LoginStore';
 const theme = createTheme({
     palette: {
         primary: {
-            main: '#000000', // Set primary color to black
+            main: '#000000',
         },
     },
     typography: {
-        fontFamily: 'Dubai Medium, serif', // Replace with your desired font
+        fontFamily: 'Dubai Medium, serif',
     },
 });
 

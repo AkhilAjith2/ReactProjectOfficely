@@ -4,7 +4,6 @@ import SearchBar from './Search';
 import SearchItem from '../../components/searchItem/SearchItem';
 import Navbar from '../../components/navbar/Navbar';
 import OfficeStore from '../../api/OfficeStore';
-import LoginStore from '../../api/LoginStore';
 
 const List = () => {
   const itemsPerPage = 10;
